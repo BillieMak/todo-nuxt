@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     components: {
       include:[
         'Button',
+        'Menubar'
       ]
     },
    
