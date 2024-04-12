@@ -1,4 +1,16 @@
 <template>
-    <h1 class="text-center">Incidencias OSI</h1>
+    <h1>Incidencias OTI</h1>
     <TableData />
 </template>
+
+<script setup lang="ts">
+
+
+
+</script>
+
+<style>
+h1 {
+    text-align: center;
+}
+</style>

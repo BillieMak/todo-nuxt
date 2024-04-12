@@ -22,6 +22,12 @@ export default defineEventHandler(() => {
         state: 2,
         attention: "",
       },
+      {
+        user:"Sr Carlos",
+        problem:"No Inicia Secion Su PC",
+        site:"Almacen Central",
+        state:3,
+      }
     ],
   };
 });

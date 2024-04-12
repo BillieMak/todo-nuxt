@@ -1,8 +1,9 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
+    // '@nuxtjs/tailwindcss',
     'nuxt-primevue',
-    '@nuxtjs/tailwindcss'
+    '@pinia/nuxt',
   ],
   primevue :{
     options:{
@@ -10,14 +11,31 @@ export default defineNuxtConfig({
     },
     components: {
       include:[
+        'Avatar',
         'Button',
-        'Menubar',
-        'DataTable',
         'Column',
+        'DataTable',
+        'Dialog',
+        'Dropdown',
+        'IconField',
+        'InputIcon',
+        'InputText',
+        'Menu',
+        'Menubar',
+        'Skeleton',
         'Tag',
+        'Textarea',
+        'Toast',
+        'Panel',
       ]
     },
+    composables: {
+      include:['useStyle']
+    },
+    usePrimeVue : true
    
   },
-  css: ['primevue/resources/themes/lara-light-green/theme.css'],
+  css: [
+    'primevue/resources/themes/aura-light-pink/theme.css',
+    'primeicons/primeicons.css',],
 })

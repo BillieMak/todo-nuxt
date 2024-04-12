@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { useAttendanceStore } from "~/store/atttendanceStore";
 interface SeverityMap {
   [key: number]: string;
 }
@@ -7,18 +7,35 @@ interface StateNameMap {
   [key: number]: string;
 }
 
-export const useIncidencia = async() => {
+export const useIncidencia = async () => {
+  const attendanceStore = useAttendanceStore();
 
-  const { data } = await useFetch("http://localhost:3000/incidencias");
+  const fillStore = () : void => {
+    const eventSource = new EventSource("http://localhost:8080/api/v1/att");
 
-  const incidencias : any = ref(data);
+    eventSource.onopen = (event) => {
+      // attendanceStore
+    };
 
+    eventSource.onmessage = (event) => {
+      const attendance = JSON.parse(event.data);
+      attendanceStore.addAttendance(attendance);
+    };
 
-  const getSeverity = (state: number) => {
+    eventSource.onerror = (event) => {
+      console.log("conexion terminada");
+    };
+  };
+
+  onMounted(() => {
+    fillStore();
+  });
+
+  const getSeverity = (state: number) : string => {
     return severity[state];
   };
 
-  const getStateName = (state: number) => {
+  const getStateName = (state: number) : string => {
     return stateName[state];
   };
 
@@ -26,7 +43,7 @@ export const useIncidencia = async() => {
     0: "success",
     1: "info",
     2: "warning",
-    3: "error",
+    3: "danger",
   };
 
   const stateName: StateNameMap = {
@@ -37,7 +54,6 @@ export const useIncidencia = async() => {
   };
 
   return {
-    incidencias,
     getSeverity,
     getStateName,
   };
