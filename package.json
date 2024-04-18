@@ -11,11 +11,12 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
-    "nuxt": "^3.10.3",
-    "primeicons": "^6.0.1",
-    "primevue": "^3.49.1",
-    "vue": "^3.4.19",
-    "vue-router": "^4.3.0"
+    "nuxt": "^3.11.2",
+    "primeicons": "^7.0.0",
+    "primevue": "^3.51.0",
+    "ufo": "^1.5.3",
+    "vue": "^3.4.23",
+    "vue-router": "^4.3.2"
   },
   "devDependencies": {
     "nuxt-primevue": "^0.3.1"
