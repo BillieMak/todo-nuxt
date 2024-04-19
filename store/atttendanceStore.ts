@@ -7,6 +7,7 @@ interface Atendance {
     state: number;
     created_at: string;
     updated_at: string;
+    file: boolean;
 }
 
 interface attendanceState {

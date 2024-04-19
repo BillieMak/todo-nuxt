@@ -17,16 +17,17 @@ export default defineNuxtConfig({
         'DataTable',
         'Dialog',
         'Dropdown',
+        'FileUpload',
         'IconField',
         'InputIcon',
         'InputText',
         'Menu',
         'Menubar',
+        'Panel',
         'Skeleton',
         'Tag',
         'Textarea',
         'Toast',
-        'Panel',
       ]
     },
     composables: {
