@@ -1,4 +1,3 @@
-import { useAlertStore } from '../store/alertStore';
 <template>
     <Dialog v-model:visible="visible" :closable="false" modal :style="{ width: '30rem' }"
         :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
