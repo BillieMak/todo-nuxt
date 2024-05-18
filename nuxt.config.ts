@@ -18,6 +18,10 @@ export default defineNuxtConfig({
     "nuxt-primevue",
     "@pinia/nuxt",
   ],
+  plugins: [
+    '~/plugins/springboot.client.ts',
+    '~/plugins/locally.ts'
+  ],
   primevue: {
     options: {
       ripple: true,

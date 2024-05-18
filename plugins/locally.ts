@@ -1,4 +1,4 @@
-export default defineNuxtPlugin(() =>{
+export default defineNuxtPlugin((nuxtApp) =>{
     return {
         provide: {
             locally: {
