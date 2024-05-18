@@ -3,7 +3,6 @@ export default defineNuxtConfig({
   runtimeConfig: {
     apiBase: process.env.BASE_URL,
     apiAuth: process.env.BASE_URL_AUTH,
-    token: process.env.TOKEN,
     public: {
       apiBase: process.env.BASE_URL,
       apiAuth: process.env.BASE_URL_AUTH,
