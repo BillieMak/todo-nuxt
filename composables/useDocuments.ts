@@ -11,7 +11,7 @@ export const useDocuments = () => {
   const { $apiBase } = useNuxtApp();
 
   const fillDocuments = async() => {
-    const data = await fetch(`${$apiBase}/api/documents`, {
+    const data = await fetch(`${$apiBase}/documents`, {
       headers: {
         token: `${$locally.getItem()}`
       }

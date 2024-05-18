@@ -18,9 +18,11 @@ export const useAreas = () => {
   const isLoding = ref(false);
 
   const getAreas = async () => {
-    const { data } = await useFetch(`${$apiBase}/api/areas`, {
+
+    console.log($locally.getItem())
+    const { data } = await useFetch(`${$apiBase}/areas`, {
       headers: {
-          token : `${ $locally.getItem()}`
+          "token" : `${$locally.getItem()}`
       }
   })
     areaStore.addAreas(data.value as area[]);
