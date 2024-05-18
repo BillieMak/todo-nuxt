@@ -1,3 +1,6 @@
 <template>
-    <h1>Asistencia</h1>
+    <div>
+        <h1>Incidencias Oti</h1>
+        <TableData />
+    </div>
 </template>

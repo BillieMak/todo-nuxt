@@ -1,29 +1,42 @@
 <template>
-    <h1>Documents</h1>
-
-    <div class="card">
-        <DataTable :value="documents" :rows="10" paginator>
-            <Column field="name" header="name"></Column>
-
-            <Column field="created_at" header="Fecha de Subida">
-                <template #body="{ data }">
-                    {{ formatDate(data.created_at) }}
+    <div>
+        <h1>Documents</h1>
+        <div class="card">
+            <DataTable :value="documents" :rows="10" paginator>
+                <template #header>
+                    <div class="header">
+                        <span class="text-xl text-900 font-bold">Descargar Documentos</span>
+                    </div>
                 </template>
-            </Column>
+                <Column field="name" header="Nombre"></Column>
+                <Column field="area" header="Area"></Column>
 
-            <Column field="url" header="Descargar">
-                <template #body="{ data }">
-                    <Button @click="downloadFile(data.codigo)" icon="pi pi-download" raised label="Descargar PDF" />
-                </template>
-            </Column>
-        </DataTable>
+                <Column field="created_at" header="Fecha de Subida">
+                    <template #body="{ data }">
+                        {{ formatDate(data.created_at) }}
+                    </template>
+                </Column>
+
+                <Column field="url" header="Descargar">
+                    <template #body="{ data }">
+                        <Button @click="downloadFile(data.codigo)" icon="pi pi-download" text rounded aria-label="Show" />
+                    </template>
+                </Column>
+            </DataTable>
+        </div>
     </div>
 
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+   middleware: ["auth"]
+})
 
 const { documents } = useDocuments()
+
+const { $apiBase } = useNuxtApp();
+
 
 const formatDate = computed(() => {
     return (date: string) => {
@@ -33,7 +46,8 @@ const formatDate = computed(() => {
 })
 
 const downloadFile = async (codigo: String) => {
-    window.location.href = `http://localhost:8080/api/v1/document/download/${codigo}`
+
+    window.location.href = `${$apiBase}/document/download/${codigo}`
 }
 
 </script>
@@ -50,5 +64,6 @@ const downloadFile = async (codigo: String) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 25px;
 }
 </style>

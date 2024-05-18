@@ -1,75 +1,128 @@
-import { Column } from '../../.nuxt/components';
 <template>
-    <h1>Users</h1>
-    <main class="flex">
-        <div class="card">
-            <DataTable :value="users" stripedRows  @row-select="onRowClick" selection-mode="single">
-                <template #header>
-                    <div class="header">
-                        <h2 class="text-xl text-900 font-bold">Incidencias</h2>
+    <div>
+        <h1>Users</h1>
+        <main class="flex">
+            <div class="card">
+                <DataTable :value="users" v-model:filters="filters" stripedRows @row-select="onRowClick"
+                    selection-mode="single" :globalFilterFields="['name', 'username', 'email', 'status']">
+                    <template #header>
+                        <div class="header">
+                            <span class="text-xl text-900 font-bold">Usuarios</span>
+                            <IconField iconPosition="left">
+                                <InputIcon>
+                                    <i class="pi pi-search" />
+                                </InputIcon>
+                                <InputText v-model="filters['global'].value" placeholder="Buscar por Nombre" />
+                            </IconField>
+                        </div>
+                    </template>
+                    <!-- <Column field="id" header="ID"></Column> -->
+                    <Column field="name" header="Nombre"></Column>
+                    <Column field="username" header="Username"></Column>
+                    <Column field="email" header="Email"></Column>
+                    <Column field="rolName" header="Rol"></Column>
+                    <Column field="enabled" header="Status">
+                        <template #body="{ data }">
+                            <Tag :value="getStateName(data.enabled)" :severity="getSeverity(data.status)" />
+                        </template>
+                    </Column>
+                </DataTable>
+            </div>
+            <Panel :header="titlePanel" class="panel">
+                <div class="panel-body">
+                    <label for="name">Nombre</label>
+                    <InputText v-model="modalFields.name" id="name" type="text" />
+                    <label for="username">Username</label>
+                    <InputText v-model="modalFields.username" id="username" type="text" />
+                    <label for="email">Email</label>
+                    <InputText v-model="modalFields.email" id="email" type="text" />
+                    <label for="rol">Rol</label>
+                    <InputText v-model="modalFields.rolName" id="rol" type="text" />
+                    <label for="status">Status</label>
+                    <InputText v-model="modalFields.enabled" id="status" type="text" />
+                </div>
+                <template #footer>
+                    <div class="flex">
+                        <Button label="Cancelar" @click="onCancel" icon="pi pi-times" severity="danger" raised />
+                        <Button label="Save" icon="pi pi-check" severity="success" raised />
                     </div>
                 </template>
-                <Column field="id" header="ID"></Column>
-                <Column field="name" header="Usuario"></Column>
-                <Column field="status" header="Status">
-                    <template #body="{ data }">
-                        <Tag :value="getStateName(data.status)"  :severity="getSeverity(data.status)"/>
-                    </template>
-                </Column>
-            </DataTable>
-        </div>
-        <Panel header="Area">
-            <label for="name">Nombre</label>
-            <InputText id="name" type="text" />
-            <br>
-            <label for="status">Status</label>
-            <InputText id="status" type="text" />
-            <template #footer>
-                <div class="flex">
-                    <Button label="Cancelar" icon="pi pi-times" severity="danger" raised />
-                    <Button label="Save" icon="pi pi-check" severity="success" raised />
-                </div>
-            </template>
-        </Panel>
-    </main>
+            </Panel>
+        </main>
+    </div>
 </template>
 
 <script setup lang="ts">
 
-const users = ref([
+definePageMeta({
+   middleware: ["auth","is-admin"]
+})
 
-    {
-        id: 1,
-        name: 'Usuario 1',
-        status: 0,
-    },
-    {
-        id: 2,
-        name: 'Usuario 2',
-        status: 1,
-    },
-    {
-        id: 3,
-        name: 'Usuario 3',
-        status: 0,
+import { FilterMatchMode } from 'primevue/api'
+
+const titlePanel = ref('Usuario - Agregar')
+
+
+const filters: any = ref({})
+
+const users = ref([])
+const { $locally } = useNuxtApp();
+
+const showUsers = async () => {
+    const data = await fetch("/api/users" ,{
+        headers: {
+            token: `${$locally.getItem("tokenid")}`
+        }
+    });
+    users.value = await data.json();
+    // console.log(await data.json());
+}
+
+showUsers()
+
+const modalFields = ref({
+    name: '',
+    username: '',
+    email: '',
+    rolName: '',
+    enabled: '',
+})
+
+const initFilters = (): void => {
+    filters.value = {
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     }
-])
+}
 
-const stateName : any ={
+initFilters()
+
+const stateName: any = {
     0: 'Inactivo',
     1: 'Activo',
 }
 
-const getSeverity = (state: number)  => {
+const getSeverity = (state: number) => {
     return state === 0 ? 'danger' : 'success'
 }
 
-const getStateName = (state: number)  => {
+const getStateName = (state: number) => {
     return stateName[state]
 }
+const onCancel = () => {
+    titlePanel.value = 'Usuario - Agregar'
+    modalFields.value = {
+        name: '',
+        username: '',
+        email: '',
+        rolName: '',
+        enabled: '',
 
-const onRowClick =({data} : {data: any}) => {
-    console.log(JSON.stringify(data))
+    }
+}
+
+const onRowClick = ({ data }: { data: any }) => {
+    titlePanel.value = 'Usuario - Editando'
+    modalFields.value = data
 }
 
 </script>
@@ -80,6 +133,23 @@ const onRowClick =({data} : {data: any}) => {
     justify-content: space-evenly;
     align-items: center;
     margin-top: 10px;
+    flex-wrap: wrap;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel {
+    box-shadow: 0 0 10px #00000033;
+}
+
+.panel-body {
+    display: flex;
+    flex-direction: column;
+    /* outline: 2px solid red; */
+    gap: 5px;
+}
 </style>

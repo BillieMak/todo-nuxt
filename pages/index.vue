@@ -1,16 +1,3 @@
 <template>
-    <h1>Incidencias OTI</h1>
-    <TableData />
+   <h1>Dashboard</h1>
 </template>
-
-<script setup lang="ts">
-
-
-
-</script>
-
-<style>
-h1 {
-    text-align: center;
-}
-</style>

@@ -1,42 +1,59 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  runtimeConfig: {
+    apiBase: process.env.BASE_URL,
+    apiAuth: process.env.BASE_URL_AUTH,
+    token: process.env.TOKEN,
+    public: {
+      apiBase: process.env.BASE_URL,
+      apiAuth: process.env.BASE_URL_AUTH,
+    }
+  },
+  app: {
+    pageTransition: { name: "page", mode: "out-in" },
+    // layoutTransition: { name: "layout", mode: "out-in" },
+  },
   modules: [
     // '@nuxtjs/tailwindcss',
-    'nuxt-primevue',
-    '@pinia/nuxt',
+    "nuxt-primevue",
+    "@pinia/nuxt",
   ],
-  primevue :{
-    options:{
-      ripple: true
+  primevue: {
+    options: {
+      ripple: true,
+      inputStyle: "outlined",
     },
+    cssLayerOrder: "reset,primevue",
     components: {
-      include:[
-        'Avatar',
-        'Button',
-        'Column',
-        'DataTable',
-        'Dialog',
-        'Dropdown',
-        'FileUpload',
-        'IconField',
-        'InputIcon',
-        'InputText',
-        'Menu',
-        'Menubar',
-        'Panel',
-        'Skeleton',
-        'Tag',
-        'Textarea',
-        'Toast',
-      ]
+      include: [
+        "Avatar",
+        "Button",
+        "Badge",
+        "Column",
+        "DataTable",
+        "Dialog",
+        "Dropdown",
+        "FileUpload",
+        "IconField",
+        "InputIcon",
+        "InputText",
+        "Menu",
+        "Menubar",
+        "Panel",
+        "Password",
+        "Skeleton",
+        "Tag",
+        "Textarea",
+        "Toast",
+      ],
     },
     composables: {
-      include:['useStyle']
+      include: ["useStyle"],
     },
-    usePrimeVue : true
-   
+    usePrimeVue: true,
   },
   css: [
-    'primevue/resources/themes/aura-light-pink/theme.css',
-    'primeicons/primeicons.css',],
-})
+    "primevue/resources/themes/aura-light-noir/theme.css",
+    "primeicons/primeicons.css",
+  ],
+});

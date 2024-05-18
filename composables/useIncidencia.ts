@@ -10,9 +10,10 @@ interface StateNameMap {
 export const useIncidencia = async () => {
   const attendanceStore = useAttendanceStore();
 
-  const fillStore = () : void => {
-    const eventSource = new EventSource("http://localhost:8080/api/v1/att");
+  const { $apiBase } = useNuxtApp();
 
+  const fillStore = (): void => {
+    const eventSource = new EventSource(`${$apiBase}/att`);
     eventSource.onopen = (event) => {
       // attendanceStore
     };
@@ -31,11 +32,11 @@ export const useIncidencia = async () => {
     fillStore();
   });
 
-  const getSeverity = (state: number) : string => {
+  const getSeverity = (state: number): string => {
     return severity[state];
   };
 
-  const getStateName = (state: number) : string => {
+  const getStateName = (state: number): string => {
     return stateName[state];
   };
 

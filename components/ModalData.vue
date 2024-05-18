@@ -7,12 +7,10 @@
         closeButton: {
             onclick: closeModal
         }
-    }" 
-    :style="{ width: '40rem' }"
-    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+    }" :style="{ width: '40rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
         <div class="flex">
-           <h3 class="w-6rem inline">Usuario </h3>
-           <span>{{ getSelected?.person }}</span>
+            <h3 class="w-6rem inline">Usuario </h3>
+            <span>{{ getSelected?.person }}</span>
         </div>
         <div class="flex">
             <h3 class="w-6rem ">Fecha solicitada</h3>
@@ -32,13 +30,16 @@
         </div>
         <div>
             <h3 class="w-6rem">Archivo - Ficha</h3>
-            
-            <Button raised v-if="getSelected.codigo_file" icon="pi pi-download" iconPos="right" label="Descargar Ficha" />
-            <FileUpload v-else name="file" @before-upload="onBeforeUpload"  @upload="onAdvancedUpload" url="http://localhost:8080/api/v1/documents" :multiple="false" accept=".pdf" :maxFileSize="1000000">
+
+            <Button raised v-if="getSelected.codigo_file" icon="pi pi-download" iconPos="right" label="Descargar Ficha"
+                @click="downloadFile(getSelected.codigo_file)" />
+            <FileUpload v-else name="file" @before-upload="onBeforeUpload" @upload="onAdvancedUpload" :url="urlUpload"
+                :invalid-file-size-message="'Archivo demasiado grande'" :multiple="false" accept=".pdf"
+                :maxFileSize="3e+6">
                 <template #empty>
-                    {{ getSelected.codigo_file }}
                     <p>Drag and drop files to here to upload.</p>
                 </template>
+
             </FileUpload>
             <!-- <Button raised v-if="getSelected.file" icon="pi pi-download" iconPos="right" label="Descargar Ficha" /> -->
         </div>
@@ -54,29 +55,38 @@ import { useModalDataStore } from '~/store/modalDataStore';
 
 const modalStore = useModalDataStore()
 
+const { $apiBase } = useNuxtApp()
+
+const urlUpload = `${$apiBase}/document/upload`;
+
 const { getOpen, getSelected } = storeToRefs(modalStore)
 
-const formatDate = (date: string) : string => {
+const formatDate = (date: string): string => {
     return new Date(date).toLocaleString('es-ES')
 }
 
-const closeModal = () : void => {
+const closeModal = (): void => {
     modalStore.close()
 }
 
-const onBeforeUpload = (event:any) : void => {
+const onBeforeUpload = (event: any): void => {
 
     event.formData.append('name', getSelected.value.person)
+    event.formData.append('area', getSelected.value.area)
     event.formData.append('codigo_file', generateCode())
     event.formData.append('id_attendance', getSelected.value.id)
 }
 
-const onAdvancedUpload = (event:any) : void => {
+const onAdvancedUpload = (event: any): void => {
     const { codigo } = JSON.parse(event.xhr.response)
     console.log(codigo)
 }
 
-const generateCode = () : string => {
+const generateCode = (): string => {
     return Math.random().toString(36).slice(-8);
+}
+
+const downloadFile = async (codigo: String) => {
+    window.location.href = `${$apiBase}/document/download/${codigo}`
 }
 </script>

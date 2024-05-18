@@ -7,6 +7,7 @@ interface Atendance {
     state: number;
     created_at: string;
     updated_at: string;
+    created_by: string;
     file: boolean;
 }
 
@@ -35,7 +36,7 @@ export const useAttendanceStore = defineStore("attendance", {
           this.exist(item, attendance)
         );
         if (index === -1) {
-          this.attendances.push(attendance);
+          this.attendances.unshift(attendance);
         }
         this.attendances[index] = attendance;
 

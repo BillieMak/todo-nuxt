@@ -1,44 +1,44 @@
 <template>
-    <h1>Areas</h1>
-    <main class="flex">
-       <div class="card">
-        <DataTable :value="areas" >
-            <template #header>
-                <div class="header">
-                    <h2 class="text-xl text-900 font-bold">Incidencias</h2>
+    <div>
+        <h1>Areas</h1>
+        <main class="flex">
+            <div class="card">
+                <DataTable :value="areas" paginator :rows="8">
+                    <template #header>
+                        <div class="header">
+                            <span class="text-xl text-900 font-bold">Areas</span>
+                        </div>
+                    </template>
+                    <Column field="id" header="ID"></Column>
+                    <Column field="name" header="Area"></Column>
+                    <Column header="Area">
+                        <template #body>
+                            Hola
+                        </template>
+                    </Column>
+                </DataTable>
+            </div>
+            <Panel header="Area" class="panel">
+
+                <div class="panel-body">
+                    <label for="name">Nombre</label>
+                    <InputText id="name" type="text" />
                 </div>
-            </template>
-            <Column field="id" header="ID"></Column>
-            <Column field="name" header="Area"></Column>
-        </DataTable>
-       </div>
-        <Panel header="Area">
-            <hr>
-            <label for="name">Nombre</label>
-            <br>
-            <br>
-            <InputText id="name" type="text" />
-            <br>
-            <br>
-            <Button label="Save" icon="pi pi-check" raised severity="success" />
-        </Panel>
-    </main>
+
+                <template #footer>
+                    <Button label="Save" icon="pi pi-check" raised severity="success" />
+                </template>
+            </Panel>
+        </main>
+    </div>
 </template>
 <script setup lang="ts">
-const areas = ref([
-    {
-        id: 1,
-        name: 'Area 1'
-    },
-    {
-        id: 2,
-        name: 'Area 2'
-    },
-    {
-        id: 3,
-        name: 'Area 3'
-    }
-])
+
+definePageMeta({
+    middleware: ['auth', 'is-admin']
+})
+
+const {areas} = useAreas()
 
 </script>
 <style scoped>
@@ -49,9 +49,20 @@ const areas = ref([
     align-items: center;
     padding: 10px;
 }
-@media (width <= 768px) {
-   .card{
-    margin-bottom: 30px;
-   }
+
+.panel {
+    box-shadow: 0 0 10px #00000033;
+}
+
+.panel-body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+@media (width <=768px) {
+    .card {
+        margin-bottom: 30px;
+    }
 }
 </style>

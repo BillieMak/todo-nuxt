@@ -19,7 +19,7 @@
             <small id="problem-help">{{ hasErrors.problem }}</small>
         </div>
         <div class="flex">
-            <label for="email" class="font-semibold w-6rem">Area:</label>
+            <label for="area" class="font-semibold w-6rem">Area:</label>
             <SelectFilter id="area" />
         </div>
         <div class="flex">
@@ -27,12 +27,11 @@
             <Textarea id="description" class="flex-auto" auto-resize v-model="attendance.setDescription" rows="4" />
         </div>
         <template #footer>
-            <Button label="Cancel" text raised severity="secondary" @click="onCancel" autofocus />
-            <Button label="Save" raised @click="onSave" autofocus />
+            <Button label="Cancel" text raised severity="danger" @click="onCancel" autofocus />
+            <Button label="Save" raised @click="onSave" severity="success" autofocus />
         </template>
     </Dialog>
-
-    <Toast position="bottom-right" group="br" />
+    <Toast position="bottom-right" group="tr" />
 </template>
 
 <script setup lang="ts">
@@ -43,8 +42,11 @@ import { useModalFormStore } from '~/store/modalFormStore';
 import { useAttendanceStore } from '~/store/atttendanceStore';
 
 import { useToast } from 'primevue/usetoast';
+import Attendance from '~/plugin/attendance';
 
-import Attendance from '@/plugin/attendance';
+
+const { $locally } = useNuxtApp()
+
 
 
 
@@ -65,17 +67,21 @@ const { getAttendance } = storeToRefs(modalFromStore)
 
 const selectedArea = computed(() => getAttendance.value.area)
 
-const attendance: Ref<Attendance> = ref(new Attendance('', '', '', ''))
+const attendance: Ref<Attendance> = ref(new Attendance('', '', '', '', ''))
 
-const hasErrors: Ref<Attendance> = ref(new Attendance('', '', '', ''))
+const hasErrors: Ref<Attendance> = ref(new Attendance('', '', '', '', ''))
 
 const emit = defineEmits(['closeModal'])
 
+const { $apiBase } = useNuxtApp();
+
+const { user } = useAuth();
+
 const clearFields = (): void => {
 
-    attendance.value = new Attendance('', '', '', '')
+    attendance.value = new Attendance('', '', '', '', '')
 
-    hasErrors.value = new Attendance('', '', '', '')
+    hasErrors.value = new Attendance('', '', '', '', '')
 }
 
 const onCancel = (): void => {
@@ -86,33 +92,38 @@ const onCancel = (): void => {
 
 const onSave = async (): Promise<void> => {
 
+    attendance.value.setArea = selectedArea.value
+
+    if (!$locally.getItem('tokenid')) {
+        showToast('error', 'Debe Registrarse Primero', 'No estas Registrado');
+        return
+    }
+
+    attendance.value.setCreated_by = user.value.name.toString()
+
+    console.log('token', $locally.getItem('tokenid'))
     try {
-        attendance.value.setArea = selectedArea.value
-        const { data, status, error }: any = await useFetch('http://localhost:8080/api/v1/att', {
+        const response: any = await $fetch(`${$apiBase}/att`, {
+            headers: {
+                token: `${$locally.getItem('tokenid')}`
+            },
+
             method: 'POST',
             body: JSON.stringify(attendance.value),
             watch: false,
         })
 
-        if (status.value === "success") {
-            attendanceStore.addAttendance(data.value)
-            showToast('success', 'Incidencia Creada', 'Incidencia Creada con exito');
-            clearFields()
-            emit('closeModal', false)
-            return
-        }
-
-        if (!data.value) {
-            hasErrors.value = error.value.data
-            showToast('error', 'Error al crear', `Verifique campos`);
-            console.log(hasErrors.value)
-            return
-        }
+        attendanceStore.addAttendance(response)
+        showToast('success', 'Incidencia Creada', 'Incidencia Creada con exito');
+        clearFields()
+        emit('closeModal', false)
+        return
 
 
-
-    } catch (error) {
-        showToast('error', 'Error Al Crear', '{{ error }}');
+    } catch (error: any) {
+        console.log(error.data)
+        hasErrors.value = error.data
+        showToast('error', 'Error Al Crear', 'Verificar Campos');
     }
 
 }

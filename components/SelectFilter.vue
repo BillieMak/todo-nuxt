@@ -30,22 +30,15 @@ import { useModalFormStore } from '~/store/modalFormStore';
 
 const modalFormStore = useModalFormStore()
 
-const selectedArea = ref<Area>({id: 0,name: 'Area'})
+const { areas } = useAreas()
+
+const selectedArea = ref<Area>({ id: 0, name: 'Area' })
 
 const onAreaChange = () => {
     const area = selectedArea.value
     modalFormStore.setArea(area.name);
 }
 
-const { data } = await useFetch('http://localhost:8080/api/v1/areas',
-    {
-        headers: {
-            token: "1234"
-        },
-    }
-)
-
-const areas: any = ref(data)
 
 
 
