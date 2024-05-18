@@ -9,12 +9,13 @@
       </template>
       <template #end>
 
-        <Button v-if="!isLogged" type="button" class="p-link" severity="secondary" @click="login" label="Iniciar Sesion"/>
-           
+        <Button v-if="!isLogged" type="button" class="p-link" severity="secondary" @click="login"
+          label="Iniciar Sesion" />
+
 
         <Button v-else type="button" class="p-link" icon="pi pi-ellipsis-v" severity="secondary" @click="toggle"
           aria-haspopup="true" aria-controls="overlay_menu" />
-        <LazyMenu  :model="itemMenu" class="w-full md:w-15rem" ref="menu" :popup="true">
+        <LazyMenu :model="itemMenu" class="w-full md:w-15rem" ref="menu" :popup="true">
 
           <template #start>
             <span class="submenu-header">{{ user.rolName.toUpperCase() }}</span>
@@ -98,9 +99,17 @@ const { user } = storeToRefs(authStore)
 
 const { logout } = useAuth()
 
-const {$locally} = useNuxtApp()
+const { $locally } = useNuxtApp();
 
-const isLogged = ref($locally.getItem('tokenid'))
+const isLogged = ref(false);
+
+const checkLoggedIn = async () => {
+  const token = $locally.getItem('tokenid');
+  isLogged.value = !!token;
+};
+
+
+onMounted(checkLoggedIn);
 
 const router = useRouter()
 
@@ -132,7 +141,7 @@ const itemMenu = ref([
   }
 ]);
 
-const login = () =>{
+const login = () => {
   router.push('/login')
 }
 

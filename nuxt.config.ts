@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   ],
   plugins: [
     '~/plugins/springboot.client.ts',
-    '~/plugins/locally.ts'
+    { src: "~/plugins/locally.ts", ssr: false, mode: 'client' },
   ],
   primevue: {
     options: {

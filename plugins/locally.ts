@@ -12,7 +12,8 @@ export default defineNuxtPlugin((nuxtApp) =>{
 
                 setItem(item : string, value : string) {
                     if (process.client) {
-                        return localStorage.setItem(item, value)
+                        const serializedValue = typeof value === 'string' ? value : JSON.stringify(value);
+                        localStorage.setItem(item, serializedValue);
                     }
                 },
 
