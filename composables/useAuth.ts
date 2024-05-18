@@ -3,7 +3,6 @@ import { useAuthStore } from "~/store/authStore";
 
 export const useAuth = () => {
   const toast = useToast();
-  const { $locally } = useNuxtApp();
 
   const authStore = useAuthStore();
   const { user } = storeToRefs(authStore);
@@ -27,7 +26,6 @@ export const useAuth = () => {
           password: password.value,
         },
       });
-      $locally.setItem("tokenid", res.token);
       authStore.login(res.user, res.token);
       toast.add({
         severity: "success",
@@ -51,7 +49,7 @@ export const useAuth = () => {
 
   const logout = () => {
     authStore.logout();
-    $locally.removeItem("tokenid");
+
     router.push("/login");
   };
 

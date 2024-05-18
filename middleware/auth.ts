@@ -10,7 +10,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   const { $locally } = useNuxtApp();
 
-  const token = ref($locally.getItem("tokenid"));
+  const token = ref($locally.getItem());
 
   if (!user.value.username && !token.value) {
     alertStore.addAlert({

@@ -94,18 +94,18 @@ const onSave = async (): Promise<void> => {
 
     attendance.value.setArea = selectedArea.value
 
-    if (!$locally.getItem('tokenid')) {
+    if (!$locally.getItem()) {
         showToast('error', 'Debe Registrarse Primero', 'No estas Registrado');
         return
     }
 
     attendance.value.setCreated_by = user.value.name.toString()
 
-    console.log('token', $locally.getItem('tokenid'))
+    console.log('token', $locally.getItem())
     try {
         const response: any = await $fetch(`${$apiBase}/att`, {
             headers: {
-                token: `${$locally.getItem('tokenid')}`
+                token: `${$locally.getItem()}`
             },
 
             method: 'POST',

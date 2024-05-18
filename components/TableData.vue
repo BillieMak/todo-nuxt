@@ -64,7 +64,7 @@ const modalStore = useModalDataStore()
 
 const { getAttendances } = storeToRefs(attendanceStore)
 
-const isLogged = ref($locally.getItem('tokenid'))
+const isLogged = ref($locally.getItem())
 
 const filters: any = ref({})
 

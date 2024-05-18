@@ -101,15 +101,7 @@ const { logout } = useAuth()
 
 const { $locally } = useNuxtApp();
 
-const isLogged = ref(false);
-
-const checkLoggedIn = async () => {
-  const token = $locally.getItem('tokenid');
-  isLogged.value = !!token;
-};
-
-
-onMounted(checkLoggedIn);
+const isLogged = ref($locally.getItem())
 
 const router = useRouter()
 

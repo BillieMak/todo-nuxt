@@ -27,6 +27,7 @@ export const useAuthStore = defineStore("auth", {
     login(user: User, token: String) {
       this.user = user;
       this.token = token;
+      localStorage.setItem("tokenid", token.toString());
     },
     logout() {
       this.user = {
@@ -38,6 +39,14 @@ export const useAuthStore = defineStore("auth", {
         rolName: "",
       };
       this.token = "";
+      localStorage.removeItem("tokenid");
+    },
+
+    loadToken() {
+      this.token = localStorage.getItem("tokenid") ?? '';
+    },
+    getToken() {
+      return this.token;
     },
   },
 });
