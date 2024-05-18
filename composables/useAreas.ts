@@ -18,14 +18,16 @@ export const useAreas = () => {
   const isLoding = ref(false);
 
   const getAreas = async () => {
-
-    console.log($locally.getItem())
-    const { data } = await useFetch(`${$apiBase}/areas`, {
-      headers: {
-          "token" : `${$locally.getItem()}`
-      }
-  })
-    areaStore.addAreas(data.value as area[]);
+    try {
+      const response = await $fetch(`${$apiBase}/areas`, {
+        headers: {
+          token: `${$locally.getItem()}`,
+        },
+      });
+      areaStore.addAreas(response as area[]);
+    } catch (error:any) {
+      console.log(error.data);
+    }
   };
 
   onMounted(() => {

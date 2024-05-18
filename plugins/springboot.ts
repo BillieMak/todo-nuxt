@@ -4,8 +4,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   return {
     provide: {
-      apiBase:"https://incidencias-backend-production.up.railway.app/api/v1",
-      apiAuth:"https://incidencias-backend-production.up.railway.app/auth"
+      apiBase:"http://localhost:8080/api/v1",
+      apiAuth:"http://localhost:8080/auth"
     },
   };
 });
