@@ -8,10 +8,12 @@ export const useDocuments = () => {
 
   const { documents } = storeToRefs(documentsStore);
 
+  const { $apiBase } = useNuxtApp();
+
   const fillDocuments = async() => {
-    const data = await fetch("/api/documents", {
+    const data = await fetch(`${$apiBase}/api/documents`, {
       headers: {
-        token: $locally.getItem() ?? ""
+        token: `${$locally.getItem()}`
       }
     })
     // console.log(`${$locally.getItem("tokenid")}`)

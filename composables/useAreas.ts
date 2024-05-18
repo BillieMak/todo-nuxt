@@ -13,10 +13,12 @@ export const useAreas = () => {
 
   const { areas } = storeToRefs(areaStore);
 
+  const { $apiBase } = useNuxtApp();
+
   const isLoding = ref(false);
 
   const getAreas = async () => {
-    const { data } = await useFetch('/api/areas', {
+    const { data } = await useFetch(`${$apiBase}/api/areas`, {
       headers: {
           token : `${ $locally.getItem()}`
       }

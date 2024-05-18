@@ -4,8 +4,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   return {
     provide: {
-      apiBase:runtimeConfig.public.apiBase,
-      apiAuth:runtimeConfig.public.apiAuth,
+      apiBase:"https://incidencias-backend-production.up.railway.app/api/v1",
+      apiAuth:"https://incidencias-backend-production.up.railway.app/auth"
     },
   };
 });
