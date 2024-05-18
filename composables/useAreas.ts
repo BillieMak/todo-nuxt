@@ -18,7 +18,7 @@ export const useAreas = () => {
   const getAreas = async () => {
     const { data } = await useFetch('/api/areas', {
       headers: {
-          token : `${ $locally.getItem('tokenid')}`
+          token : $locally.getItem('tokenid') ?? ''
       }
   })
     areaStore.addAreas(data.value as area[]);

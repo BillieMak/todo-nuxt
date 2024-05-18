@@ -4,7 +4,7 @@ export default defineNuxtPlugin(() =>{
             locally: {
                 getItem(item : string) {
                     if (process.client) {
-                        return localStorage.getItem(item)    
+                        return localStorage.getItem(item) ?? '' 
                     } else {
                         return undefined
                     }
