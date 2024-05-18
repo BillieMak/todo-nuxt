@@ -71,7 +71,7 @@ const { $locally } = useNuxtApp();
 const showUsers = async () => {
     const data = await fetch("/api/users" ,{
         headers: {
-            token: `${$locally.getItem("tokenid")}`
+            token: `${$locally.getItem()}`
         }
     });
     users.value = await data.json();

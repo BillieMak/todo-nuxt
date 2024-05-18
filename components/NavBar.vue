@@ -100,7 +100,7 @@ const { logout } = useAuth()
 
 const {$locally} = useNuxtApp()
 
-const isLogged = ref($locally.getItem('tokenid'))
+const isLogged = ref($locally.getItem())
 
 const router = useRouter()
 
