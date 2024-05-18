@@ -20,8 +20,7 @@ export const useAreas = () => {
   const getAreas = async () => {
     try {
       const response = await $fetch(`${$apiBase}/areas`, {
-        method: "GET",
-        headers: { "token" : `${$locally.getItem()}` },
+        headers: { token: `${$locally.getItem()}` },
       });
       areaStore.addAreas(response as area[]);
     } catch (error: any) {
