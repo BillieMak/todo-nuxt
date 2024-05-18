@@ -15,18 +15,17 @@ export const useAreas = () => {
 
   const { $apiBase } = useNuxtApp();
 
-  const isLoding = ref(false);
+  // const isLoding = ref(false);
 
   const getAreas = async () => {
     try {
       const response = await $fetch(`${$apiBase}/areas`, {
-        headers: {
-          token: `${$locally.getItem()}`,
-        },
+        method: "GET",
+        headers: { "token" : `${$locally.getItem()}` },
       });
       areaStore.addAreas(response as area[]);
-    } catch (error:any) {
-      console.log(error.data);
+    } catch (error: any) {
+      console.log({ error });
     }
   };
 
