@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     public: {
       apiBase: process.env.BASE_URL,
       apiAuth: process.env.BASE_URL_AUTH,
-    }
+    },
   },
   app: {
     pageTransition: { name: "page", mode: "out-in" },
@@ -17,10 +17,6 @@ export default defineNuxtConfig({
     // '@nuxtjs/tailwindcss',
     "nuxt-primevue",
     "@pinia/nuxt",
-  ],
-  plugins: [
-    '~/plugins/springboot.client.ts',
-    { src: "~/plugins/locally.ts", ssr: false, mode: 'client' },
   ],
   primevue: {
     options: {

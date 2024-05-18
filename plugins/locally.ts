@@ -2,11 +2,11 @@ export default defineNuxtPlugin((nuxtApp) =>{
     return {
         provide: {
             locally: {
-                getItem(item : string) :string | null {
+                getItem(item : string) {
                     if (process.client) {
-                        return localStorage.getItem(item) ?? null
+                        return localStorage.getItem(item) ?? '' 
                     } else {
-                        return null
+                        return undefined
                     }
                 },
 
