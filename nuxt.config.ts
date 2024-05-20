@@ -1,13 +1,13 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  // runtimeConfig: {
-  //   apiBase: process.env.BASE_URL,
-  //   apiAuth: process.env.BASE_URL_AUTH,
-  //   public: {
-  //     apiBase: process.env.BASE_URL,
-  //     apiAuth: process.env.BASE_URL_AUTH,
-  //   },
-  // },
+  runtimeConfig: {
+    apiBase: process.env.BASE_URL,
+    apiAuth: process.env.BASE_URL_AUTH,
+    public: {
+      apiBase: process.env.BASE_URL,
+      apiAuth: process.env.BASE_URL_AUTH,
+    },
+  },
   app: {
     pageTransition: { name: "page", mode: "out-in" },
     // layoutTransition: { name: "layout", mode: "out-in" },
