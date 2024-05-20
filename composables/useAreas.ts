@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/vue-query";
 import { useAreaStore } from "~/store/areasStore";
 
 interface area {
@@ -15,12 +16,25 @@ export const useAreas = () => {
 
   const { $apiBase } = useNuxtApp();
 
-  // const isLoding = ref(false);
+  const { data , error , isLoading, isError} = useQuery({
+    queryKey: ["areas"],
+    queryFn: async () => {
+      const data = await fetch(`${$apiBase}/areas`, {
+        headers: {
+          token: `${$locally.getItem()}`,
+        },
+      });
+      return data.json();
+    }
+  }
+  )
 
   const getAreas = async () => {
     try {
-      const response = await $fetch(`${$apiBase}/areas`, {
-        headers: { token: `${$locally.getItem()}` },
+      const response = await $fetch(`/api/areas`, {
+        headers: { 
+          token: `${$locally.getItem()}`,
+        },
       });
       areaStore.addAreas(response as area[]);
     } catch (error: any) {

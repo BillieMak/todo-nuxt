@@ -18,6 +18,7 @@ import { useAuthStore } from '~/store/authStore';
 
 const authStore = useAuthStore()
 
+
 onMounted(() => {
     authStore.loadToken()
 })

@@ -13,7 +13,7 @@ export const useIncidencia = async () => {
   const { $apiBase } = useNuxtApp();
 
   const fillStore = (): void => {
-    const eventSource = new EventSource(`${$apiBase}/att`);
+    const eventSource = new EventSource("https://incidencias-backend-production.up.railway.app/api/v1/att");
     eventSource.onopen = (event) => {
       // attendanceStore
     };
