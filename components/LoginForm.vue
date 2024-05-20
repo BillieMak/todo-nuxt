@@ -28,11 +28,11 @@ const { email, password, login } = useAuth()
 
 <style scoped>
 .form-login {
-    color: aliceblue;
+    color: #fff;
     background-color: rgba(255, 255, 255, 0.13);
     border: 2px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(5px);
     padding: 20px;
     border-radius: 10px;
 }

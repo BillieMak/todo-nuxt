@@ -34,5 +34,7 @@ export const useAreas = () => {
 
   return {
     areas,
+
+    getAreas,
   };
 };

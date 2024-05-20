@@ -14,7 +14,7 @@ useHead({
         {
             rel: 'preload',
             as: 'image',
-            href: '/public/unjfsc.png'
+            href: '~/public/unjfsc.png'
         }
     ]
 })

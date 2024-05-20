@@ -14,6 +14,8 @@
                                 </InputIcon>
                                 <InputText v-model="filters['global'].value" placeholder="Buscar por Nombre" />
                             </IconField>
+
+                            <Button icon="pi pi-refresh" rounded raised @click="refreshTable" />
                         </div>
                     </template>
                     <!-- <Column field="id" header="ID"></Column> -->
@@ -79,6 +81,10 @@ const showUsers = async () => {
 }
 
 showUsers()
+
+const refreshTable  =() =>{
+    showUsers()
+}
 
 const modalFields = ref({
     name: '',
