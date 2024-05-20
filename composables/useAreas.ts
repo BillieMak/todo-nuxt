@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/vue-query";
 import { useAreaStore } from "~/store/areasStore";
 
 interface area {

@@ -16,7 +16,6 @@ export default defineNuxtConfig({
     // '@nuxtjs/tailwindcss',
     "nuxt-primevue",
     "@pinia/nuxt",
-    "@hebilicious/vue-query-nuxt",
   ],
   primevue: {
     options: {
