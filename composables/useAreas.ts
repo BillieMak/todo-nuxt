@@ -14,20 +14,7 @@ export const useAreas = () => {
 
   const { areas } = storeToRefs(areaStore);
 
-  const { $apiBase } = useNuxtApp();
-
-  const { data , error , isLoading, isError} = useQuery({
-    queryKey: ["areas"],
-    queryFn: async () => {
-      const data = await fetch(`${$apiBase}/areas`, {
-        headers: {
-          token: `${$locally.getItem()}`,
-        },
-      });
-      return data.json();
-    }
-  }
-  )
+  // const { $apiBase } = useNuxtApp();
 
   const getAreas = async () => {
     try {
