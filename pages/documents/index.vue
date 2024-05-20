@@ -6,6 +6,7 @@
                 <template #header>
                     <div class="header">
                         <span class="text-xl text-900 font-bold">Descargar Documentos</span>
+                        <Button icon="pi pi-refresh" rounded raised @click="fillDocuments" />
                     </div>
                 </template>
                 <Column field="name" header="Nombre"></Column>
@@ -33,7 +34,7 @@ definePageMeta({
    middleware: ["auth"]
 })
 
-const { documents } = useDocuments()
+const { documents , fillDocuments} = useDocuments()
 
 const { $apiBase } = useNuxtApp();
 
@@ -64,6 +65,6 @@ const downloadFile = async (codigo: String) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 25px;
+    height: 33px;
 }
 </style>

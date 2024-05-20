@@ -23,5 +23,7 @@ export const useDocuments = () => {
 
   return {
     documents,
+
+    fillDocuments
   };
 };
