@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="container">
     <Menubar :model="items">
       <template #item="{ item }">
         <NuxtLink class="links" :to="item.to" :active-class="'active'">

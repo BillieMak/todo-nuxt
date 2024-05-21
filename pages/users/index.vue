@@ -2,20 +2,23 @@
     <div>
         <h1>Users</h1>
         <main class="flex">
-            <div class="card">
+            <div class="container-table">
                 <DataTable :value="users" v-model:filters="filters" stripedRows @row-select="onRowClick"
                     selection-mode="single" :globalFilterFields="['name', 'username', 'email', 'status']">
                     <template #header>
                         <div class="header">
                             <span class="text-xl text-900 font-bold">Usuarios</span>
-                            <IconField iconPosition="left">
-                                <InputIcon>
-                                    <i class="pi pi-search" />
-                                </InputIcon>
-                                <InputText v-model="filters['global'].value" placeholder="Buscar por Nombre" />
-                            </IconField>
+                            <div class="flex">
+                                <IconField iconPosition="left">
+                                    <InputIcon>
+                                        <i class="pi pi-search" />
+                                    </InputIcon>
+                                    <InputText v-model="filters['global'].value" placeholder="Buscar por Nombre" />
+                                </IconField>
 
-                            <Button icon="pi pi-refresh" rounded raised @click="refreshTable" />
+                                <Button icon="pi pi-refresh" rounded severity="secondary" unded raised
+                                    @click="refreshTable" />
+                            </div>
                         </div>
                     </template>
                     <!-- <Column field="id" header="ID"></Column> -->
@@ -57,7 +60,7 @@
 <script setup lang="ts">
 
 definePageMeta({
-   middleware: ["auth","is-admin"]
+    middleware: ["auth", "is-admin"]
 })
 
 import { FilterMatchMode } from 'primevue/api'
@@ -71,7 +74,7 @@ const users = ref([])
 const { $locally } = useNuxtApp();
 
 const showUsers = async () => {
-    const data = await fetch("/api/users" ,{
+    const data = await fetch("/api/users", {
         headers: {
             token: `${$locally.getItem()}`
         }
@@ -82,7 +85,7 @@ const showUsers = async () => {
 
 showUsers()
 
-const refreshTable  =() =>{
+const refreshTable = () => {
     showUsers()
 }
 
@@ -138,14 +141,20 @@ const onRowClick = ({ data }: { data: any }) => {
     gap: 5px;
     justify-content: space-evenly;
     align-items: center;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     flex-wrap: wrap;
+    /* outline: 2px solid lime; */
+}
+
+.container-table {
+    border-radius: 10px;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    /* outline: 2px solid red */
 }
 
 .panel {

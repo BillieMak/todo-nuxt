@@ -52,7 +52,7 @@ export default defineNuxtConfig({
     usePrimeVue: true,
   },
   css: [
-    "primevue/resources/themes/aura-light-noir/theme.css",
+    "primevue/resources/themes/aura-light-blue/theme.css",
     "primeicons/primeicons.css",
   ],
 });

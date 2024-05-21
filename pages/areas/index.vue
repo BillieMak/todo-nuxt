@@ -2,12 +2,12 @@
     <div>
         <h1>Areas</h1>
         <main class="flex">
-            <div class="card">
+            <div class="container-table">
                 <DataTable :value="areas" paginator :rows="8">
                     <template #header>
                         <div class="header">
                             <span class="text-xl text-900 font-bold">Areas</span>
-                            <Button icon="pi pi-refresh" rounded raised @click="getAreas" />
+                            <Button icon="pi pi-refresh" severity="secondary" rounded raised @click="getAreas" />
                         </div>
                     </template>
                     <Column field="id" header="ID"></Column>
@@ -49,6 +49,9 @@ const {areas, getAreas} = useAreas()
     flex-wrap: wrap;
     align-items: center;
     padding: 10px;
+}
+.container-table{
+    border-radius: 10px;
 }
 .header{
     display: flex;

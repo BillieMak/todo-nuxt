@@ -6,7 +6,7 @@
                 <template #header>
                     <div class="header">
                         <span class="text-xl text-900 font-bold">Descargar Documentos</span>
-                        <Button icon="pi pi-refresh" rounded raised @click="fillDocuments" />
+                        <Button icon="pi pi-refresh" severity="secondary" rounded raised @click="fillDocuments" />
                     </div>
                 </template>
                 <Column field="name" header="Nombre"></Column>
