@@ -13,7 +13,6 @@ export default defineNuxtConfig({
     // layoutTransition: { name: "layout", mode: "out-in" },
   },
   modules: [
-    // '@nuxtjs/tailwindcss',
     "nuxt-primevue",
     "@pinia/nuxt",
     "@nuxtjs/supabase"
