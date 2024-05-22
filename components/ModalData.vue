@@ -12,7 +12,7 @@
             <h3 class="w-6rem inline">Usuario </h3>
             <span>{{ getSelected?.person }}</span>
         </div>
-        <div class="flex"> 
+        <div class="flex">
             <h3 class="w-6rem ">Fecha solicitada</h3>
             <span>{{ formatDate(getSelected.created_at) }}</span>
         </div>
@@ -31,15 +31,17 @@
         <div>
             <h3 class="w-6rem">Archivo - Ficha</h3>
 
-            <Button raised v-if="getSelected.codigo_file" icon="pi pi-download" iconPos="right" label="Descargar Ficha"
-                @click="downloadFile(getSelected.codigo_file)" />
+            <NuxtLink v-if="getSelected.codigo_file" target="_blank" :to="downloadFile(getSelected.codigo_file)">
+                <Button raised icon="pi pi-download" iconPos="right" label="Descargar Ficha" @click="" />
+            </NuxtLink>
             <FileUpload v-else name="file" @before-upload="onBeforeUpload" :url="urlUpload"
                 :invalid-file-size-message="'Archivo demasiado grande'" :multiple="false" accept=".pdf"
                 :maxFileSize="3e+6">
                 <template #header="{ chooseCallback, clearCallback, files, uploadCallback }">
                     <div class="content-upload">
                         <Button icon="pi pi-file-plus" severity="info" label="Select" raised @click="chooseCallback" />
-                        <Button icon="pi pi-upload" severity="success" label="Upload" raised @click="onUpdateFile(files , uploadCallback)" />
+                        <Button icon="pi pi-upload" severity="success" label="Upload" raised
+                            @click="onUpdateFile(files, uploadCallback)" />
                         <Button icon="pi pi-times" severity="danger" label="Clear" raised @click="clearCallback" />
                     </div>
                 </template>
@@ -103,13 +105,13 @@ const uploadFile = async (files: any): Promise<void> => {
     codigo_file.value = fileres.path
 }
 
-const onUpdateFile = async (files : any , uploadCallback: Function) => {
+const onUpdateFile = async (files: any, uploadCallback: Function) => {
 
     // guardamos el pdf en supabase
-  await uploadFile(files)
+    await uploadFile(files)
 
-  // actulizamos el link del pdf en la bd
-  uploadCallback()
+    // actulizamos el link del pdf en la bd
+    uploadCallback()
 }
 
 
@@ -127,14 +129,14 @@ const generateCode = (): string => {
     return Math.random().toString(36).slice(-8);
 }
 
-const downloadFile = async (codigo: string) => {
+const downloadFile =  (codigo: string): string => {
     // window.location.href = `${$apiBase}/document/download/${codigo}`
-    window.location.href = supabase.storage.from('files').getPublicUrl(codigo).data.publicUrl
+    return supabase.storage.from('files').getPublicUrl(codigo).data.publicUrl
 }
 </script>
 <style scoped>
- .content-upload{
+.content-upload {
     display: flex;
     gap: 5px;
- }
+}
 </style>

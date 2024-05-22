@@ -52,6 +52,11 @@ import { useAuthStore } from '~/store/authStore';
 
 const items = ref([
   {
+    label: "Home",
+    icon: "pi pi-home",
+    to: "/",
+  },
+  {
     label: "Incidencias",
     icon: "pi pi-inbox",
     to: "/attendance",
