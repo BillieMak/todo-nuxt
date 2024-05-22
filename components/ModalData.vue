@@ -12,7 +12,7 @@
             <h3 class="w-6rem inline">Usuario </h3>
             <span>{{ getSelected?.person }}</span>
         </div>
-        <div class="flex">
+        <div class="flex"> 
             <h3 class="w-6rem ">Fecha solicitada</h3>
             <span>{{ formatDate(getSelected.created_at) }}</span>
         </div>
@@ -33,12 +33,18 @@
 
             <Button raised v-if="getSelected.codigo_file" icon="pi pi-download" iconPos="right" label="Descargar Ficha"
                 @click="downloadFile(getSelected.codigo_file)" />
-            <FileUpload v-else name="file" @before-upload="onBeforeUpload" @select="onSelect" :url="urlUpload"
+            <FileUpload v-else name="file" @before-upload="onBeforeUpload" :url="urlUpload"
                 :invalid-file-size-message="'Archivo demasiado grande'" :multiple="false" accept=".pdf"
                 :maxFileSize="3e+6">
-
+                <template #header="{ chooseCallback, clearCallback, files, uploadCallback }">
+                    <div class="content-upload">
+                        <Button icon="pi pi-file-plus" severity="info" label="Select" raised @click="chooseCallback" />
+                        <Button icon="pi pi-upload" severity="success" label="Upload" raised @click="onUpdateFile(files , uploadCallback)" />
+                        <Button icon="pi pi-times" severity="danger" label="Clear" raised @click="clearCallback" />
+                    </div>
+                </template>
                 <template #empty>
-                    <p>Drag and drop files to here to upload.</p>
+                    <p>Arrastras y el archivo a subir</p>
                 </template>
 
             </FileUpload>
@@ -63,8 +69,11 @@ const { getOpen, getSelected } = storeToRefs(modalStore)
 
 
 //supabase 
-
 const supabase = useSupabaseClient()
+
+//url and code file desde supabase
+const url_file = ref("")
+const codigo_file = ref("")
 
 const formatDate = (date: string): string => {
     return new Date(date).toLocaleString('es-ES')
@@ -73,7 +82,6 @@ const formatDate = (date: string): string => {
 const closeModal = (): void => {
     modalStore.close()
 }
-const files = ref([])
 
 interface File {
     fullPath: string
@@ -81,18 +89,9 @@ interface File {
     path: string
 }
 
-const url_file = ref("")
-const codigo_file = ref("")
 
-const onSelect = async (event: any) => {
-
-    files.value = event.files;
-
-    await onBeforeSend()
-}
-
-const onBeforeSend = async (): Promise<void> => {
-    const { data, error } = await supabase.storage.from('files').upload(generateCode(), files.value[0])
+const uploadFile = async (files: any): Promise<void> => {
+    const { data, error } = await supabase.storage.from('files').upload(generateCode(), files[0])
     if (error) {
         console.error(error)
     }
@@ -104,8 +103,18 @@ const onBeforeSend = async (): Promise<void> => {
     codigo_file.value = fileres.path
 }
 
-const onBeforeUpload = (event: any) => {
+const onUpdateFile = async (files : any , uploadCallback: Function) => {
 
+    // guardamos el pdf en supabase
+  await uploadFile(files)
+
+  // actulizamos el link del pdf en la bd
+  uploadCallback()
+}
+
+
+
+const onBeforeUpload = (event: any) => {
     event.formData.append('name', getSelected.value.person)
     event.formData.append('area', getSelected.value.area)
     event.formData.append('id_attendance', getSelected.value.id)
@@ -123,3 +132,9 @@ const downloadFile = async (codigo: string) => {
     window.location.href = supabase.storage.from('files').getPublicUrl(codigo).data.publicUrl
 }
 </script>
+<style scoped>
+ .content-upload{
+    display: flex;
+    gap: 5px;
+ }
+</style>
