@@ -9,15 +9,6 @@ definePageMeta({
     layout: 'login'
 })
 
-useHead({
-    link: [
-        {
-            rel: 'preload',
-            as: 'image',
-            href: '~/public/unjfsc.png'
-        }
-    ]
-})
 </script>
 
 <style scoped>

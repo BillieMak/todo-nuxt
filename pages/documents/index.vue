@@ -17,12 +17,19 @@
                         {{ formatDate(data.created_at) }}
                     </template>
                 </Column>
-
                 <Column field="url" header="Descargar">
                     <template #body="{ data }">
-                        <Button @click="downloadFile(data.codigo)" icon="pi pi-download" text rounded aria-label="Show" />
+                        <NuxtLink :to="data.url" target="_blank" rel="noopener">
+                            <Button icon="pi pi-download" text rounded aria-label="Download" />
+                        </NuxtLink>
                     </template>
                 </Column>
+
+                <!-- <Column field="url" header="Descargar">
+                    <template #body="{ data }">
+                        <Button @click="downloadFile(data.url)" icon="pi pi-download" text rounded aria-label="Show" />
+                    </template>
+                </Column> -->
             </DataTable>
         </div>
     </div>
@@ -31,10 +38,10 @@
 
 <script setup lang="ts">
 definePageMeta({
-   middleware: ["auth"]
+    middleware: ["auth"]
 })
 
-const { documents , fillDocuments} = useDocuments()
+const { documents, fillDocuments } = useDocuments()
 
 const { $apiBase } = useNuxtApp();
 
@@ -48,6 +55,7 @@ const formatDate = computed(() => {
 
 const downloadFile = async (codigo: String) => {
 
+    // window.location.href = `${$apiBase}/document/download/${codigo}`
     window.location.href = `${$apiBase}/document/download/${codigo}`
 }
 

@@ -12,11 +12,12 @@ export default defineNuxtConfig({
     pageTransition: { name: "page", mode: "out-in" },
     // layoutTransition: { name: "layout", mode: "out-in" },
   },
-  modules: [
-    "nuxt-primevue",
-    "@pinia/nuxt",
-    "@nuxtjs/supabase"
-  ],
+  modules: ["nuxt-primevue", "@pinia/nuxt", "@nuxtjs/supabase"],
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_KEY,
+    redirect: false
+  },
   primevue: {
     options: {
       ripple: true,
