@@ -43,8 +43,11 @@ definePageMeta({
 
 const { documents, fillDocuments } = useDocuments()
 
-const { $apiBase } = useNuxtApp();
+// const { $apiBase } = useNuxtApp();
 
+onMounted(() => {
+    fillDocuments()
+})
 
 const formatDate = computed(() => {
     return (date: string) => {
@@ -53,11 +56,11 @@ const formatDate = computed(() => {
     }
 })
 
-const downloadFile = async (codigo: String) => {
+// const downloadFile = async (codigo: String) => {
 
-    // window.location.href = `${$apiBase}/document/download/${codigo}`
-    window.location.href = `${$apiBase}/document/download/${codigo}`
-}
+//     // window.location.href = `${$apiBase}/document/download/${codigo}`
+//     window.location.href = `${$apiBase}/document/download/${codigo}`
+// }
 
 </script>
 

@@ -17,9 +17,6 @@ export const useDocuments = () => {
     // console.log(`${$locally.getItem("tokenid")}`)
     documentsStore.setDocuments(await data.json())
   };
-  onMounted(() => {
-    fillDocuments()
-  });
 
   return {
     documents,
