@@ -1,6 +1,5 @@
 import { useToast } from "primevue/usetoast";
 import { useAuthStore } from "~/store/authStore";
-
 export const useAuth = () => {
   const toast = useToast();
 
