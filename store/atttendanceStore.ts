@@ -1,15 +1,7 @@
 import { defineStore } from "pinia";
+import type { Atendance } from "~/interfaces/attendance";
 
-interface Atendance {
-    id: number;
-    name: string;
-    description: string;
-    state: number;
-    created_at: string;
-    updated_at: string;
-    created_by: string;
-    file: boolean;
-}
+
 
 interface attendanceState {
   attendances: Array<Atendance>;

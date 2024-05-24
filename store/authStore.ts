@@ -1,16 +1,11 @@
-interface User {
-  username: String;
-  password: String;
-  email: String;
-  rol_id: Number;
-  rolName: String;
-  name: String;
-}
+import type { User } from "~/interfaces/user";
+
 
 interface AuthState {
   user: User;
   token: String;
 }
+
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
     user: {
@@ -27,6 +22,7 @@ export const useAuthStore = defineStore("auth", {
     login(user: User, token: String) {
       this.user = user;
       this.token = token;
+      // setCookie("token", token);
       localStorage.setItem("tokenid", token.toString());
     },
     logout() {

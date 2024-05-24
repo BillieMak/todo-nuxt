@@ -10,17 +10,12 @@ export const useAuth = () => {
   const email = ref("");
   const password = ref("");
 
-  const { $apiAuth } = useNuxtApp();
-
   const router = useRouter();
 
   const login = async () => {
     try {
-      const res: any = await $fetch(`${$apiAuth}/login`, {
+      const res: any = await $fetch(`/api/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: {
           email: email.value,
           password: password.value,

@@ -1,11 +1,7 @@
 import { defineStore } from 'pinia'
+import type { area } from '~/interfaces/area'
 
-interface area {
-  id: number
-  name : string
-  // subArea : string 
 
-}
 
 interface areaState {
  areas :  area[]
