@@ -12,6 +12,10 @@ export const useAuth = () => {
 
   const router = useRouter();
 
+  const isLogged = computed(() => {
+    return !!authStore.token && !!authStore.user.username;
+  });
+
   const login = async () => {
     try {
       const res: any = await $fetch(`/api/login`, {
@@ -54,6 +58,7 @@ export const useAuth = () => {
     // getToken,
     login,
     logout,
+    isLogged,
     user,
     email,
     password,

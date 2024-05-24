@@ -1,6 +1,5 @@
 import type { User } from "~/interfaces/user";
 
-
 interface AuthState {
   user: User;
   token: String;
@@ -22,8 +21,6 @@ export const useAuthStore = defineStore("auth", {
     login(user: User, token: String) {
       this.user = user;
       this.token = token;
-      // setCookie("token", token);
-      localStorage.setItem("tokenid", token.toString());
     },
     logout() {
       this.user = {
@@ -35,11 +32,22 @@ export const useAuthStore = defineStore("auth", {
         rolName: "",
       };
       this.token = "";
-      localStorage.removeItem("tokenid");
+
+      useCookie("user").value = null;
+      useCookie("token").value = null;
     },
 
     loadToken() {
-      this.token = localStorage.getItem("tokenid") ?? '';
+      this.token = useCookie("token").value ?? "";
+      const userCookie: any = useCookie("user").value;
+
+      if (userCookie) {
+        this.user.email = userCookie.email;
+        this.user.name = userCookie.name;
+        this.user.rol_id = userCookie.rol_id;
+        this.user.rolName = userCookie.rolName;
+        this.user.username = userCookie.username;
+      }
     },
     getToken() {
       return this.token;
