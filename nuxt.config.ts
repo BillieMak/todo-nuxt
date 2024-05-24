@@ -3,21 +3,21 @@ export default defineNuxtConfig({
   runtimeConfig: {
     apiBase: process.env.BASE_URL,
     apiAuth: process.env.BASE_URL_AUTH,
-    token: process.env.TOKEN,
     public: {
       apiBase: process.env.BASE_URL,
       apiAuth: process.env.BASE_URL_AUTH,
-    }
+    },
   },
   app: {
     pageTransition: { name: "page", mode: "out-in" },
     // layoutTransition: { name: "layout", mode: "out-in" },
   },
-  modules: [
-    // '@nuxtjs/tailwindcss',
-    "nuxt-primevue",
-    "@pinia/nuxt",
-  ],
+  modules: ["nuxt-primevue", "@pinia/nuxt", "@nuxtjs/supabase"],
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_KEY,
+    redirect: false
+  },
   primevue: {
     options: {
       ripple: true,
@@ -42,6 +42,7 @@ export default defineNuxtConfig({
         "Panel",
         "Password",
         "Skeleton",
+        "Sidebar",
         "Tag",
         "Textarea",
         "Toast",
@@ -53,7 +54,7 @@ export default defineNuxtConfig({
     usePrimeVue: true,
   },
   css: [
-    "primevue/resources/themes/aura-light-noir/theme.css",
+    "primevue/resources/themes/aura-light-blue/theme.css",
     "primeicons/primeicons.css",
   ],
 });

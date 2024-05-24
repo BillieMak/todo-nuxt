@@ -1,17 +1,19 @@
 <template>
     <div class="card">
         <DataTable :value="attendances" v-model:filters="filters" filterDisplay="menu" :rows="10" paginator
-            :globalFilterFields="['person', 'area', 'state']">
+            :globalFilterFields="['person', 'area', 'state','created_by']">
             <template #header>
                 <div class="header">
                     <span class="text-xl text-900 font-bold">Incidencias</span>
-                    <Button v-if="isLogged" icon="pi pi-plus" rounded raised @click="openModal" />
-                    <IconField iconPosition="left">
-                        <InputIcon>
-                            <i class="pi pi-search" />
-                        </InputIcon>
-                        <InputText v-model="filters['global'].value" placeholder="Buscar por Area o Persona" />
-                    </IconField>
+                    <div class="flex">
+                        <IconField iconPosition="left">
+                            <InputIcon>
+                                <i class="pi pi-search" />
+                            </InputIcon>
+                            <InputText v-model="filters['global'].value" placeholder="Buscar por Area o Persona" />
+                        </IconField>
+                        <Button v-if="isLogged" icon="pi pi-plus" severity="secondary" rounded raised @click="openModal" />
+                    </div>
                 </div>
             </template>
             <Column field="person" header="Usuario"></Column>
@@ -31,13 +33,13 @@
             </Column>
             <Column header="Actions">
                 <template #body="{ data }">
-                   <div class="flex">
-                    <Button icon="pi pi-eye" @click="showData(data)" text rounded aria-label="Show" />
-                    <div>
-                        <Button icon="pi pi-pencil"@click="toggle" text rounded aria-label="Show" />
-                    <LazyMenu ref="menu" id="overlay_menu" :model="items" :popup="true" />
+                    <div class="flex">
+                        <Button icon="pi pi-eye" @click="showData(data)" text rounded aria-label="Show" />
+                        <div>
+                            <Button icon="pi pi-pencil" @click="toggle" text rounded aria-label="Show" />
+                            <LazyMenu ref="menu" id="overlay_menu" :model="items" :popup="true" />
+                        </div>
                     </div>
-                   </div>
                 </template>
             </Column>
         </DataTable>
@@ -51,18 +53,12 @@
 
 import { FilterMatchMode } from 'primevue/api'
 import { useModalDataStore } from '~/store/modalDataStore';
-import { useAttendanceStore } from '~/store/atttendanceStore';
 
 const { $locally } = useNuxtApp()
 
-const { getSeverity, getStateName } = await useIncidencia()
-
-
-const attendanceStore = useAttendanceStore()
+const { getSeverity, getStateName, attendances } = await useIncidencia()
 
 const modalStore = useModalDataStore()
-
-const { getAttendances } = storeToRefs(attendanceStore)
 
 const isLogged = ref($locally.getItem())
 
@@ -76,6 +72,13 @@ const items = ref([
         label: 'Options',
         items: [
             {
+                label: 'Cancel',
+                icon: 'pi pi-times',
+                command: () => {
+                    alert('Cancel')
+                }
+            },
+            {
                 label: 'Complete',
                 icon: 'pi pi-check',
                 command: () => {
@@ -83,10 +86,10 @@ const items = ref([
                 }
             },
             {
-                label: 'Asign person', 
+                label: 'Asign person',
                 icon: 'pi pi-user-plus',
                 command: () => {
-                    alert('asinar Persona')
+                    alert('asignar Persona')
                 }
             }
         ]
@@ -102,7 +105,6 @@ const initFilters = (): void => {
 
 initFilters()
 
-const attendances = computed(() => getAttendances.value)
 
 const formatDate = computed(() => {
     return (date: string) => {
@@ -126,18 +128,24 @@ const closeModal = (v: boolean): void => {
 }
 
 
-const toggle = (event : Event) => {
+const toggle = (event: Event) => {
     menu.value.toggle(event);
 };
 
 </script>
-
-
 <style>
+.card {
+    /* outline: 2px solid red; */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 80vw;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
 .p-datatable {
     box-shadow: 0 0 10px #00000033;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: inherit;
 }
 
 .p-datatable-header {
@@ -150,12 +158,6 @@ table button .p-button-icon {
 }
 </style>
 <style scoped>
-.card {
-    /* outline: 2px solid red; */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    width: 80vw;
-    margin: 0 auto;
-}
 
 .header {
     display: flex;
@@ -166,7 +168,11 @@ table button .p-button-icon {
 
 .flex {
     display: flex;
+    gap: 5px;
+    align-items: center;
+
 }
+
 @media (width <=768px) {
     .header {
         flex-direction: column;

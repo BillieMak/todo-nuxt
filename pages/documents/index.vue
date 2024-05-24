@@ -6,6 +6,7 @@
                 <template #header>
                     <div class="header">
                         <span class="text-xl text-900 font-bold">Descargar Documentos</span>
+                        <Button icon="pi pi-refresh" severity="secondary" rounded raised @click="fillDocuments" />
                     </div>
                 </template>
                 <Column field="name" header="Nombre"></Column>
@@ -16,12 +17,19 @@
                         {{ formatDate(data.created_at) }}
                     </template>
                 </Column>
-
                 <Column field="url" header="Descargar">
                     <template #body="{ data }">
-                        <Button @click="downloadFile(data.codigo)" icon="pi pi-download" text rounded aria-label="Show" />
+                        <NuxtLink :to="data.url" target="_blank" rel="noopener">
+                            <Button icon="pi pi-download" text rounded aria-label="Download" />
+                        </NuxtLink>
                     </template>
                 </Column>
+
+                <!-- <Column field="url" header="Descargar">
+                    <template #body="{ data }">
+                        <Button @click="downloadFile(data.url)" icon="pi pi-download" text rounded aria-label="Show" />
+                    </template>
+                </Column> -->
             </DataTable>
         </div>
     </div>
@@ -30,13 +38,16 @@
 
 <script setup lang="ts">
 definePageMeta({
-   middleware: ["auth"]
+    middleware: ["auth"]
 })
 
-const { documents } = useDocuments()
+const { documents, fillDocuments } = useDocuments()
 
-const { $apiBase } = useNuxtApp();
+// const { $apiBase } = useNuxtApp();
 
+onMounted(() => {
+    fillDocuments()
+})
 
 const formatDate = computed(() => {
     return (date: string) => {
@@ -45,10 +56,11 @@ const formatDate = computed(() => {
     }
 })
 
-const downloadFile = async (codigo: String) => {
+// const downloadFile = async (codigo: String) => {
 
-    window.location.href = `${$apiBase}/document/download/${codigo}`
-}
+//     // window.location.href = `${$apiBase}/document/download/${codigo}`
+//     window.location.href = `${$apiBase}/document/download/${codigo}`
+// }
 
 </script>
 
@@ -64,6 +76,6 @@ const downloadFile = async (codigo: String) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 25px;
+    height: 33px;
 }
 </style>

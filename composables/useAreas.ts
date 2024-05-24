@@ -13,15 +13,19 @@ export const useAreas = () => {
 
   const { areas } = storeToRefs(areaStore);
 
-  const isLoding = ref(false);
+  // const { $apiBase } = useNuxtApp();
 
   const getAreas = async () => {
-    const { data } = await useFetch('/api/areas', {
-      headers: {
-          token : `${ $locally.getItem()}`
-      }
-  })
-    areaStore.addAreas(data.value as area[]);
+    try {
+      const response = await $fetch(`/api/areas`, {
+        headers: { 
+          token: `${$locally.getItem()}`,
+        },
+      });
+      areaStore.addAreas(response as area[]);
+    } catch (error: any) {
+      console.log({ error });
+    }
   };
 
   onMounted(() => {
@@ -30,5 +34,7 @@ export const useAreas = () => {
 
   return {
     areas,
+
+    getAreas,
   };
 };

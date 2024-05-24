@@ -2,11 +2,12 @@
     <div>
         <h1>Areas</h1>
         <main class="flex">
-            <div class="card">
+            <div class="container-table">
                 <DataTable :value="areas" paginator :rows="8">
                     <template #header>
                         <div class="header">
                             <span class="text-xl text-900 font-bold">Areas</span>
+                            <Button icon="pi pi-refresh" severity="secondary" rounded raised @click="getAreas" />
                         </div>
                     </template>
                     <Column field="id" header="ID"></Column>
@@ -38,7 +39,7 @@ definePageMeta({
     middleware: ['auth', 'is-admin']
 })
 
-const {areas} = useAreas()
+const {areas, getAreas} = useAreas()
 
 </script>
 <style scoped>
@@ -49,7 +50,15 @@ const {areas} = useAreas()
     align-items: center;
     padding: 10px;
 }
-
+.container-table{
+    border-radius: 10px;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+}
 .panel {
     box-shadow: 0 0 10px #00000033;
 }

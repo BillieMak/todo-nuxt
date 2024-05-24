@@ -11,7 +11,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
     if (user.value.rolName !== "admin") {
       
         //mostrar alerta 
-        alertStore.addAlert({title: 'Acceso Denegado',message: 'no eres Administrador', life: 2000 , visible:true})
+        alertStore.addAlert({title: 'Acceso Denegado',message: 'No Tienes Permisos para Acceder a esta Pagina 🎶', life: 2000 , visible:true})
         // return navigateTo("/attendance");
         return navigateTo("/attendance");
       }

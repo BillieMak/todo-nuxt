@@ -1,9 +1,10 @@
 export default defineEventHandler(async (event) => {
-  const { apiBase } = useRuntimeConfig();
-  const res = await $fetch(`${apiBase}/users`, {
-    headers: {
-      token : `${event.node.req.headers.token}`
-    },
-  });
-  return res;
-});
+    const { apiBase } = useRuntimeConfig();
+
+    const res = await $fetch(`${apiBase}/users`, {
+        headers: {
+            token: `${event.node.req.headers.token}`
+        }
+    })
+    return res;
+})

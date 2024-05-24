@@ -1,9 +1,8 @@
-import { useAlertStore } from '../store/alertStore';
 <template>
-    <Dialog v-model:visible="visible" :closable="false" modal :style="{ width: '30rem' }"
-        :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+    <Dialog v-model:visible="visible" :closable="false" modal dismissableMask
+        class="dialog"
+        :breakpoints="{ '960px': '50vw', '500px': '80vw' }">
         <template #header>
-
             <h3 class="m-0 flex"> 
                 <span>{{ title }}</span>
                 <i class="pi pi-lock"> </i>
@@ -49,5 +48,14 @@ watch(() => visible.value, (newValue, _) => {
     justify-content: space-between;
     align-items: center; 
     gap:10px
+}
+
+</style>
+
+<style>
+@media (width <=768px) {
+    .dialog{
+        width: 80vw;
+    }
 }
 </style>

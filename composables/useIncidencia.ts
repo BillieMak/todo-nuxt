@@ -10,6 +10,8 @@ interface StateNameMap {
 export const useIncidencia = async () => {
   const attendanceStore = useAttendanceStore();
 
+  const {attendances } = storeToRefs(attendanceStore);
+
   const { $apiBase } = useNuxtApp();
 
   const fillStore = (): void => {
@@ -55,6 +57,7 @@ export const useIncidencia = async () => {
   };
 
   return {
+    attendances,
     getSeverity,
     getStateName,
   };

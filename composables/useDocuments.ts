@@ -9,19 +9,18 @@ export const useDocuments = () => {
   const { documents } = storeToRefs(documentsStore);
 
   const fillDocuments = async() => {
-    const data = await fetch("/api/documents", {
+    const data = await fetch(`/api/documents`, {
       headers: {
-        token: $locally.getItem() ?? ""
+        token: `${$locally.getItem()}`
       }
     })
     // console.log(`${$locally.getItem("tokenid")}`)
     documentsStore.setDocuments(await data.json())
   };
-  onMounted(() => {
-    fillDocuments()
-  });
 
   return {
     documents,
+
+    fillDocuments
   };
 };

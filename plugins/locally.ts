@@ -1,16 +1,15 @@
-import { useAuthStore } from "~/store/authStore"
+import { useAuthStore } from "~/store/authStore";
 
-export default defineNuxtPlugin(() =>{
+export default defineNuxtPlugin((nuxtApp) => {
+  const authStore = useAuthStore();
 
-    const authStore = useAuthStore();
-
-    return {
-        provide: {
-            locally: {
-                getItem() {
-                    return authStore.getToken();
-                }
-            }
-        }
-    }
-})
+  return {
+    provide: {
+      locally: {
+        getItem() {
+          return authStore.getToken();
+        },
+      },
+    },
+  };
+});
