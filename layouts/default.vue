@@ -1,14 +1,16 @@
-import { useAuthStore } from '../store/authStore';
 <template>
-  <header>
-    <NavBar :base-id="'menu'" />
-  </header>
-  <main>
-    <slot />
-  </main>
-  <footer>
-    <Footer />
-  </footer>
+  <div>
+    <header>
+      <NavBar :base-id="'menu'" v-model="visible" />
+      <SideBarComponent v-model="visible" />
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer>
+      <Footer />
+    </footer>
+  </div>
   <LazyAlert />
 </template>
 
@@ -18,8 +20,9 @@ import { useAuthStore } from '~/store/authStore';
 
 const authStore = useAuthStore()
 
+const visible = ref(false)
 
 onMounted(() => {
-    authStore.loadToken()
+  authStore.loadToken()
 })
 </script>
