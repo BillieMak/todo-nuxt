@@ -72,6 +72,13 @@ const items = ref([
         label: 'Options',
         items: [
             {
+                label: 'Cancel',
+                icon: 'pi pi-times',
+                command: () => {
+                    alert('Cancel')
+                }
+            },
+            {
                 label: 'Complete',
                 icon: 'pi pi-check',
                 command: () => {
