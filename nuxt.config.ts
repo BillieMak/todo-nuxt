@@ -42,6 +42,7 @@ export default defineNuxtConfig({
         "Panel",
         "Password",
         "Skeleton",
+        "Sidebar",
         "Tag",
         "Textarea",
         "Toast",

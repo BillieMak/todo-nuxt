@@ -7,6 +7,10 @@
           {{ item.label }}
         </NuxtLink>
       </template>
+      <template #menubutton="{ class: slotClass }">
+        <Button class="btn-menu" :class="slotClass" icon="pi pi-bars" severity="secondary" text rounded
+          @click="toggleSideBar" />
+      </template>
       <template #end>
 
         <Button v-if="!isLogged" type="button" class="p-link" severity="secondary" @click="login"
@@ -23,13 +27,6 @@
           <template #submenuheader="{ item }">
             <span class="text-primary font-bold">{{ item.label }}</span>
           </template>
-          <!-- <template #item="{ item }">
-            <a class="flex" @click="item.command">
-              <i :id="item.label?.toString()" :class="item.icon"></i>
-              <label class="ml-2">{{ item.label }}</label>
-              <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
-            </a>
-          </template> -->
           <template #end>
             <button v-ripple
               class="relative overflow-hidden w-full p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround">
@@ -76,25 +73,9 @@ const items = ref([
     icon: "pi pi-building",
     to: "/areas",
   },
-
-
-  // {
-  //   label: "Mantenimiento",
-  //   icon: "pi pi-pencil",
-  //   items: [
-  //     {
-  //       label: "Usuarios",
-  //       icon: "pi pi-user",
-  //       to: "/users",
-  //     },
-  //     {
-  //       label: "Areas",
-  //       icon: "pi pi-plus",
-  //       to: "/areas",
-  //     },
-  //   ]
-  // }
 ]);
+
+const visible = defineModel()
 
 const menu = ref();
 
@@ -142,6 +123,9 @@ const login = () => {
   router.push('/login')
 }
 
+const toggleSideBar = () => {
+  visible.value = !visible.value
+}
 const toggle = (event: any) => {
   menu.value.toggle(event);
 };
@@ -157,24 +141,6 @@ const toggle = (event: any) => {
 
   box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
 }
-
-.links {
-  text-decoration: none;
-  text-align: center;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  user-select: none;
-  color: #fff
-}
-
-.active {
-  color: #111;
-  background-color: #fff;
-  padding: 0.5rem;
-  border-radius: 8px;
-}
-
 
 .p-menubar-root-list {
   gap: 30px;
@@ -216,5 +182,30 @@ const toggle = (event: any) => {
   justify-content: start;
   align-items: center;
   padding: 7px 7px;
+}
+
+.links {
+  text-decoration: none;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  color: #fff
+}
+
+.active {
+  color: #111;
+  background-color: #fff;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.btn-menu {
+  color: #fff
+}
+
+.btn-menu:hover {
+  color: #111
 }
 </style>
