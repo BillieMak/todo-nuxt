@@ -30,7 +30,7 @@ export const useAuth = () => {
         severity: "success",
         summary: "Success",
         detail: "Login exitoso",
-        group: "br",
+        group: "tr",
         life: 3000,
       });
       router.push("/");
@@ -40,8 +40,8 @@ export const useAuth = () => {
         severity: "error",
         summary: "Error",
         detail: error.data.data.message,
-        group: "br",
-        life: 3000,
+        group: "tr",
+        life: 4000,
       });
     }
   };
