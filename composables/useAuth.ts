@@ -7,7 +7,7 @@ export const useAuth = () => {
   const authStore = useAuthStore();
   const { auth } = storeToRefs(authStore);
 
-  const email = ref("");
+  const username = ref("");
   const password = ref("");
 
   const router = useRouter();
@@ -21,11 +21,11 @@ export const useAuth = () => {
       const res: any = await $fetch(`/api/login`, {
         method: "POST",
         body: {
-          email: email.value,
+          username: username.value,
           password: password.value,
         },
       });
-      authStore.login(res.user, res.token);
+      authStore.login(res.auth, res.token);
       toast.add({
         severity: "success",
         summary: "Success",
@@ -34,12 +34,12 @@ export const useAuth = () => {
         life: 3000,
       });
       router.push("/attendance");
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      // console.log(error.data.data);
       toast.add({
         severity: "error",
         summary: "Error",
-        detail: "Credenciales incorrectas",
+        detail: error.data.data.message,
         group: "br",
         life: 3000,
       });
@@ -60,7 +60,7 @@ export const useAuth = () => {
     logout,
     isLogged,
     auth,
-    email,
+    username,
     password,
   };
 };

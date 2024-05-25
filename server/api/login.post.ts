@@ -1,9 +1,8 @@
 import type { Auth } from "~/interfaces/auth";
 
-
-interface resAuth{
-  token: string,
-  auth: Auth
+interface resAuth {
+  token: string;
+  auth: Auth;
 }
 
 export default defineEventHandler(async (event) => {
@@ -11,17 +10,21 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody(event);
 
-  const res : resAuth = await $fetch(`${apiAuth}/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body,
-  });
+  try {
+    const res: resAuth = await $fetch(`${apiAuth}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    });
 
-  setCookie(event, "token", res.token);
+    setCookie(event, "token", res.token);
 
-  setCookie(event, "user", JSON.stringify(res.auth as Auth));
+    setCookie(event, "user", JSON.stringify(res.auth as Auth));
 
-  return res;
+    return res;
+  } catch (error) {
+    return error;
+  }
 });
