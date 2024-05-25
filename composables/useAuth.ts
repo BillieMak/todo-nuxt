@@ -5,7 +5,7 @@ export const useAuth = () => {
   const toast = useToast();
 
   const authStore = useAuthStore();
-  const { user } = storeToRefs(authStore);
+  const { auth } = storeToRefs(authStore);
 
   const email = ref("");
   const password = ref("");
@@ -13,7 +13,7 @@ export const useAuth = () => {
   const router = useRouter();
 
   const isLogged = computed(() => {
-    return !!authStore.token && !!authStore.user.username;
+    return !!authStore.token && !!authStore.auth.name;
   });
 
   const login = async () => {
@@ -59,7 +59,7 @@ export const useAuth = () => {
     login,
     logout,
     isLogged,
-    user,
+    auth,
     email,
     password,
   };

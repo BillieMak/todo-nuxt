@@ -1,33 +1,27 @@
-import type { User } from "~/interfaces/user";
+import type { Auth } from "~/interfaces/auth";
 
 interface AuthState {
-  user: User;
-  token: String;
+  auth: Auth;
+  token: string;
 }
 
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
-    user: {
-      username: "",
-      password: "",
+    auth: {
       email: "",
-      rol_id: 0,
       name: "",
       rolName: "",
     },
     token: "",
   }),
   actions: {
-    login(user: User, token: String) {
-      this.user = user;
+    login(auth: Auth, token: string) {
+      this.auth = auth;
       this.token = token;
     },
     logout() {
-      this.user = {
-        username: "",
-        password: "",
+      this.auth = {
         email: "",
-        rol_id: 0,
         name: "",
         rolName: "",
       };
@@ -42,11 +36,9 @@ export const useAuthStore = defineStore("auth", {
       const userCookie: any = useCookie("user").value;
 
       if (userCookie) {
-        this.user.email = userCookie.email;
-        this.user.name = userCookie.name;
-        this.user.rol_id = userCookie.rol_id;
-        this.user.rolName = userCookie.rolName;
-        this.user.username = userCookie.username;
+        this.auth.email = userCookie.email;
+        this.auth.name = userCookie.name;
+        this.auth.rolName = userCookie.rolName;
       }
     },
     getToken() {

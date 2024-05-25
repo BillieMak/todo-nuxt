@@ -75,7 +75,7 @@ const emit = defineEmits(['closeModal'])
 
 const { $apiBase } = useNuxtApp();
 
-const { user } = useAuth();
+const { auth:user } = useAuth();
 
 const clearFields = (): void => {
 

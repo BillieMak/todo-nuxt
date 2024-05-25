@@ -81,7 +81,7 @@ const menu = ref();
 
 const authStore = useAuthStore()
 
-const { user } = storeToRefs(authStore)
+const { auth:user } = storeToRefs(authStore)
 
 const { logout, isLogged } = useAuth()
 

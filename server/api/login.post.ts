@@ -1,8 +1,9 @@
-import type { User } from "~/interfaces/user";
+import type { Auth } from "~/interfaces/auth";
+
 
 interface resAuth{
   token: string,
-  user: User
+  user: Auth
 }
 
 export default defineEventHandler(async (event) => {
@@ -20,7 +21,7 @@ export default defineEventHandler(async (event) => {
 
   setCookie(event, "token", res.token);
 
-  setCookie(event, "user", JSON.stringify(res.user as User));
+  setCookie(event, "user", JSON.stringify(res.user as Auth));
 
   return res;
 });
