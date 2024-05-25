@@ -33,7 +33,7 @@ export const useAuth = () => {
         group: "br",
         life: 3000,
       });
-      router.push("/attendance");
+      router.push("/");
     } catch (error:any) {
       // console.log(error.data.data);
       toast.add({
