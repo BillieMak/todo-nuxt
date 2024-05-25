@@ -18,7 +18,7 @@
             </div>
         </form>
     </div>
-    <Toast position="bottom-right" group="br" />
+    <Toast position="top-right" group="tr"/>
 </template>
 <script setup>
 

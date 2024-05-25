@@ -39,7 +39,7 @@ export const useAuth = () => {
       toast.add({
         severity: "error",
         summary: "Error",
-        detail: error.data.data.message,
+        detail: `${error.data.data.message}❕❕❕`,
         group: "tr",
         life: 4000,
       });
