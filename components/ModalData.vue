@@ -21,6 +21,10 @@
             <span>{{ getSelected.problem }}</span>
         </div>
         <div class="flex">
+            <h3 class="w-6rem ">Registrado por</h3>
+            <span>{{ getSelected.created_by }}</span>
+        </div>
+        <div class="flex">
             <h3 class="w-6rem ">Area</h3>
             <span>{{ getSelected.area }}</span>
         </div>

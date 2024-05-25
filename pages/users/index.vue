@@ -28,7 +28,7 @@
                     <Column field="rolName" header="Rol"></Column>
                     <Column field="enabled" header="Status">
                         <template #body="{ data }">
-                            <Tag :value="getStateName(data.enabled)" :severity="getSeverity(data.status)" />
+                            <Tag :value="getStateName(data.enabled)" :severity="getSeverity(data.enabled)" />
                         </template>
                     </Column>
                 </DataTable>
@@ -110,13 +110,17 @@ const stateName: any = {
     1: 'Activo',
 }
 
-const getSeverity = (state: number) => {
-    return state === 0 ? 'danger' : 'success'
-}
+const getSeverity = computed(() => {
+    return (state: number) => {
+        return state === 0 ? 'danger' : 'success'
+    }
+})
 
-const getStateName = (state: number) => {
-    return stateName[state]
-}
+const getStateName = computed(() => {
+    return (state: number) => {
+        return stateName[state]
+    }
+})
 const onCancel = () => {
     titlePanel.value = 'Usuario - Agregar'
     modalFields.value = {

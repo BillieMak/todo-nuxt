@@ -28,7 +28,7 @@ const visible = ref(false);
 
 const router = useRouter();
 
-const { $locally } = useNuxtApp();
+const { isLogged } = useAuth();
 
 useHead({
    title: 'Dashboard',
@@ -42,7 +42,7 @@ useHead({
 })
 
 onMounted(() => {
-   if (!visible.value && !$locally.getItem()) {
+   if (!visible.value && !isLogged) {
       toast.add({ severity: 'info', summary: 'Desea Iniciar Sesión?', group: 'br' });
       visible.value = true;
    }

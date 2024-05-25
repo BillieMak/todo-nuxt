@@ -1,49 +1,45 @@
-interface User {
-  username: String;
-  password: String;
-  email: String;
-  rol_id: Number;
-  rolName: String;
-  name: String;
-}
+import type { Auth } from "~/interfaces/auth";
 
 interface AuthState {
-  user: User;
-  token: String;
+  auth: Auth;
+  token: string;
 }
+
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
-    user: {
-      username: "",
-      password: "",
+    auth: {
       email: "",
-      rol_id: 0,
       name: "",
       rolName: "",
     },
     token: "",
   }),
   actions: {
-    login(user: User, token: String) {
-      this.user = user;
+    login(auth: Auth, token: string) {
+      this.auth = auth;
       this.token = token;
-      localStorage.setItem("tokenid", token.toString());
     },
     logout() {
-      this.user = {
-        username: "",
-        password: "",
+      this.auth = {
         email: "",
-        rol_id: 0,
         name: "",
         rolName: "",
       };
       this.token = "";
-      localStorage.removeItem("tokenid");
+
+      useCookie("user").value = null;
+      useCookie("token").value = null;
     },
 
     loadToken() {
-      this.token = localStorage.getItem("tokenid") ?? '';
+      this.token = useCookie("token").value ?? "";
+      const userCookie: any = useCookie("user").value;
+
+      if (userCookie) {
+        this.auth.email = userCookie.email;
+        this.auth.name = userCookie.name;
+        this.auth.rolName = userCookie.rolName;
+      }
     },
     getToken() {
       return this.token;

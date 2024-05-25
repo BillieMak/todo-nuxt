@@ -1,15 +1,11 @@
-interface User{
-    username: String
-    password: String
-    email: String
-    rol_id: Number
-    rolName: String
-    name: String
-    enabled: Number
+import type { User } from "~/interfaces/user"
+
+interface UserState{
+    users: User[]
 }
 
 export const useAreaStore =  defineStore("users" ,{
-    state : () =>({
+    state : () :UserState =>({
       users: []
     })
 })

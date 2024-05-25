@@ -4,44 +4,43 @@ export const useAuth = () => {
   const toast = useToast();
 
   const authStore = useAuthStore();
-  const { user } = storeToRefs(authStore);
+  const { auth } = storeToRefs(authStore);
 
-  const email = ref("");
+  const username = ref("");
   const password = ref("");
-
-  const { $apiAuth } = useNuxtApp();
 
   const router = useRouter();
 
+  const isLogged = computed(() => {
+    return !!authStore.token && !!authStore.auth.name;
+  });
+
   const login = async () => {
     try {
-      const res: any = await $fetch(`${$apiAuth}/login`, {
+      const res: any = await $fetch(`/api/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: {
-          email: email.value,
+          username: username.value,
           password: password.value,
         },
       });
-      authStore.login(res.user, res.token);
+      authStore.login(res.auth, res.token);
       toast.add({
         severity: "success",
         summary: "Success",
         detail: "Login exitoso",
-        group: "br",
+        group: "tr",
         life: 3000,
       });
-      router.push("/attendance");
-    } catch (error) {
-      console.log(error);
+      router.push("/");
+    } catch (error:any) {
+      // console.log(error.data.data);
       toast.add({
         severity: "error",
         summary: "Error",
-        detail: "Credenciales incorrectas",
-        group: "br",
-        life: 3000,
+        detail: `${error.data.data.message}🥹`,
+        group: "tr",
+        life: 4000,
       });
     }
   };
@@ -58,8 +57,9 @@ export const useAuth = () => {
     // getToken,
     login,
     logout,
-    user,
-    email,
+    isLogged,
+    auth,
+    username,
     password,
   };
 };

@@ -54,13 +54,11 @@
 import { FilterMatchMode } from 'primevue/api'
 import { useModalDataStore } from '~/store/modalDataStore';
 
-const { $locally } = useNuxtApp()
-
 const { getSeverity, getStateName, attendances } = await useIncidencia()
 
 const modalStore = useModalDataStore()
 
-const isLogged = ref($locally.getItem())
+const { isLogged } = useAuth()
 
 const filters: any = ref({})
 

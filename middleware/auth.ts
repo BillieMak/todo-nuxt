@@ -4,14 +4,14 @@ import { useAuthStore } from "~/store/authStore";
 export default defineNuxtRouteMiddleware((to, from) => {
   const authStore = useAuthStore();
   const alertStore = useAlertStore();
-  const { user } = storeToRefs(authStore);
+  const { auth } = storeToRefs(authStore);
 
 
   const { $locally } = useNuxtApp();
 
   const token = ref($locally.getItem());
 
-  if (!user.value.username && !token.value) {
+  if (!auth.value.name && !token.value) {
     alertStore.addAlert({
       title: "Session",
       message: "Inicie Sesion Primero",

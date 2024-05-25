@@ -3,8 +3,8 @@
         <form class="form-login">
             <h1>Login</h1>
             <div class="flex">
-                <label for="email">Email</label>
-                <InputText id="email" v-model="email" />
+                <label for="username">Username</label>
+                <InputText id="username" v-model="username" />
             </div>
             <br />
             <div class="flex">
@@ -18,11 +18,11 @@
             </div>
         </form>
     </div>
-    <Toast position="bottom-right" group="br" />
+    <Toast position="top-right" group="tr"/>
 </template>
 <script setup>
 
-const { email, password, login } = useAuth()
+const { username, password, login } = useAuth()
 
 </script>
 

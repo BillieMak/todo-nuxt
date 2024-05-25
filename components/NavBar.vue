@@ -81,13 +81,11 @@ const menu = ref();
 
 const authStore = useAuthStore()
 
-const { user } = storeToRefs(authStore)
+const { auth:user } = storeToRefs(authStore)
 
-const { logout } = useAuth()
+const { logout, isLogged } = useAuth()
 
-const { $locally } = useNuxtApp();
-
-const isLogged = ref($locally.getItem())
+ 
 
 const router = useRouter()
 

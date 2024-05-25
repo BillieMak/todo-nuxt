@@ -1,13 +1,7 @@
 import {defineStore} from "pinia"
+import type { Document } from "~/interfaces/document"
 
-interface Document {
-    id: Number,
-    name: String,
-    area: String,
-    created_at: String,
-    url: String,
-    codigo: String
-}
+
 
 interface DocumentState {
     documents: Array<Document>
