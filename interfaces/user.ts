@@ -5,4 +5,5 @@ export interface User {
     rol_id: Number;
     rolName: String;
     name: String;
+    enabled: Number;
 }
