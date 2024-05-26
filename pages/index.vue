@@ -3,13 +3,13 @@
       <h1>Dashboard</h1>
 
       <Toast position="bottom-right" group="br" @close="onClose">
-         <template #message="slotProps">
+         <template #message="{message}">
             <div class="toast-body" style="flex: 1">
                <div class="flex">
-                  <Avatar image="http://localhost:3000/imagebot" alt="Bot" width="40" height="40" shape="circle" />
+                  <Avatar image="/imagebot" alt="Bot" width="40" height="40" shape="circle" />
                   <span class="font-bold text-900">Bot Billie</span>
                </div>
-               <div class="font-medium text-lg my-3 text-900">{{ slotProps.message.summary }}</div>
+               <div class="font-medium text-lg my-3 text-900">{{ message.summary }}</div>
                <div class="flex">
                   <Button class="p-button-sm" label="Si" @click="login"></Button>
                   <Button class="p-button-sm" label="No" @click="onClose"></Button>
@@ -36,13 +36,14 @@ useHead({
       {
          rel: "preload",
          as: "image",
-         href: "http://localhost:3000/imagebot"
+         href: "/imagebot"
       }
    ]
 })
 
 onMounted(() => {
-   if (!visible.value && !isLogged) {
+   if (!visible.value && !isLogged.value) {
+      console.log('isLogged', isLogged)
       toast.add({ severity: 'info', summary: 'Desea Iniciar Sesión?', group: 'br' });
       visible.value = true;
    }
