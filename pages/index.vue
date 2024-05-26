@@ -43,7 +43,6 @@ useHead({
 
 onMounted(() => {
    if (!visible.value && !isLogged.value) {
-      console.log('isLogged', isLogged)
       toast.add({ severity: 'info', summary: 'Desea Iniciar Sesión?', group: 'br' });
       visible.value = true;
    }
