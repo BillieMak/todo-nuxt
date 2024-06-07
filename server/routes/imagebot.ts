@@ -3,7 +3,7 @@ import path from "path";
 
 
 export default defineEventHandler(async (event) => {
-  const imagePath = path.join(process.cwd(), "/public/luffy.png");
+  const imagePath = path.join(process.cwd(), "/public/bot.png");
 
   try {
     const imageBuffer = await fs.readFile(imagePath);
