@@ -15,6 +15,6 @@ export default defineEventHandler(async (event) => {
   } catch (error) {
     // Manejo de errores
     event.node.res.statusCode = 500;
-    return { error: "Error al leer la imagen" , error2 :error};
+    return { errorMessage: "Error al leer la imagen" , error};
   }
 });
