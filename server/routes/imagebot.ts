@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     const imageBuffer = await fs.readFile(imagePath);
 
     // Establecer el tipo de contenido a 'image/jgpg or png'
-    event.node.res.setHeader("Content-Type", "image/jpeg");
+    event.node.res.setHeader("Content-Type", "image/png");
 
     return imageBuffer;
   } catch (error) {
