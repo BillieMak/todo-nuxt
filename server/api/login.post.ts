@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
   try {
-    const res: resAuth = await $fetch(`${apiAuth}/login`, {
+    const auth = await $fetch<resAuth>(`${apiAuth}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -19,11 +19,11 @@ export default defineEventHandler(async (event) => {
       body,
     });
 
-    setCookie(event, "token", res.token);
+    setCookie(event, "token", auth.token);
 
-    setCookie(event, "user", JSON.stringify(res.auth as UserAuth));
+    setCookie(event, "user", JSON.stringify(auth.auth as UserAuth));
 
-    return res;
+    return auth;
   } catch (error) {
     return error;
   }

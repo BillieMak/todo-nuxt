@@ -47,10 +47,6 @@ import Attendance from '~/plugin/attendance';
 
 const { $locally } = useNuxtApp()
 
-
-
-
-
 const props = defineProps({
     isVisible: Boolean
 })
@@ -101,7 +97,7 @@ const onSave = async (): Promise<void> => {
 
     attendance.value.setCreated_by = user.value.name.toString()
 
-    console.log('token', $locally.getItem())
+    // console.log('token', $locally.getItem())
     try {
         const response: any = await $fetch(`${$apiBase}/att`, {
             headers: {

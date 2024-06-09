@@ -9,6 +9,16 @@ definePageMeta({
     layout: 'login'
 })
 
+const { auth } = useAuth()
+const router = useRouter()
+
+//redirecionar login if success
+watchEffect(() => {
+    if(auth.value.name){
+        router.replace('/')
+    }
+})
+
 </script>
 
 <style scoped>

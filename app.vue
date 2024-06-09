@@ -4,10 +4,21 @@
     </NuxtLayout>
 </template>
 
+<script lang="ts" setup>
+import { useAuthStore } from '~/store/authStore';
+
+
+const authStore = useAuthStore()
+onMounted(() => {
+    authStore.loadToken()
+})
+</script>
+
 <style>
 h1 {
     text-align: center;
 }
+
 /* body{
     margin: 0;
     padding: 0;
@@ -31,6 +42,6 @@ h1 {
 
 .layout-enter-from,
 .layout-leave-to {
-   filter: grayscale(1);
+    filter: grayscale(1);
 }
 </style>

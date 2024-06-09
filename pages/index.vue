@@ -30,24 +30,11 @@ const router = useRouter();
 
 const { isLogged } = useAuth();
 
-// useHead({
-//    title: 'Dashboard',
-//    link: [
-//       {
-//          rel: "preload",
-//          as: "image",
-//          href: "/imagebot"
-//       }
-//    ]
-// })
-
 onMounted(() => {
    if (!visible.value && !isLogged.value) {
-      console.log(isLogged.value)
       toast.add({ severity: 'info', summary: 'Desea Iniciar Sesión?', group: 'br' });
       visible.value = true;
    }
-   console.log(isLogged.value)
 })
 
 const login = () => {

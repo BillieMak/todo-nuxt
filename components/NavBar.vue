@@ -44,7 +44,6 @@
 </template>
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '~/store/authStore';
 
 
 const items = ref([
@@ -79,13 +78,7 @@ const visible = defineModel()
 
 const menu = ref();
 
-const authStore = useAuthStore()
-
-const { auth:user } = storeToRefs(authStore)
-
-const { logout, isLogged } = useAuth()
-
- 
+const { logout, isLogged, auth:user } = useAuth()
 
 const router = useRouter()
 

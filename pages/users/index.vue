@@ -61,6 +61,7 @@
 
 definePageMeta({
     middleware: ["auth", "is-admin"],
+    name: "users",
 })
 
 import { FilterMatchMode } from 'primevue/api'

@@ -4,16 +4,10 @@ export const useAuth = () => {
   const toast = useToast();
 
   const authStore = useAuthStore();
-  const { auth, token } = storeToRefs(authStore);
+  const { auth } = storeToRefs(authStore);
 
   const username = ref("");
   const password = ref("");
-
-  const router = useRouter();
-
-  const isLogged = computed(() => {
-    return Boolean(authStore.token);
-  });
 
   const login = async () => {
     try {
@@ -32,8 +26,7 @@ export const useAuth = () => {
         group: "tr",
         life: 3000,
       });
-      router.push("/");
-    } catch (error:any) {
+    } catch (error: any) {
       // console.log(error.data.data);
       toast.add({
         severity: "error",
@@ -47,15 +40,13 @@ export const useAuth = () => {
 
   const logout = () => {
     authStore.logout();
-
-    router.push("/login");
   };
 
   return {
     // getToken,
     login,
     logout,
-    isLogged,
+    isLogged: computed(() => Boolean(authStore.token)),
     auth,
     username,
     password,

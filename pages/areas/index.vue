@@ -36,7 +36,8 @@
 <script setup lang="ts">
 
 definePageMeta({
-    middleware: ['auth', 'is-admin']
+    middleware: ['auth', 'is-admin'],
+    name: 'areas'
 })
 
 const {areas, getAreas} = useAreas()

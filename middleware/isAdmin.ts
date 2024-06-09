@@ -6,13 +6,13 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
     const authStore = useAuthStore();
     const alertStore = useAlertStore();
-    const { auth } = storeToRefs(authStore);
 
-    if (auth.value.rolName !== "admin") {
+    if (authStore.auth.rolName !== "admin") {
       
         //mostrar alerta 
         alertStore.addAlert({title: 'Acceso Denegado',message: 'No Tienes Permisos para Acceder a esta Pagina 🎶', life: 2000 , visible:true})
-        // return navigateTo("/attendance");
+
+        //sacar de la ruta
         return navigateTo("/attendance");
       }
 })

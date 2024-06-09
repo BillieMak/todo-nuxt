@@ -28,7 +28,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   const loadToken = () => {
     token.value = useCookie("token").value ?? "";
-    const userCookie: any = useCookie("user").value;
+    const userCookie = useCookie<UserAuth>("user").value;
 
     if (userCookie) {
       auth.value.email = userCookie.email;
