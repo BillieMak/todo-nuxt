@@ -1,29 +1,21 @@
-import { defineStore } from 'pinia'
-import type { area } from '~/interfaces/area'
+import { defineStore } from "pinia";
+import type { area } from "~/interfaces/area";
 
+export const useAreaStore = defineStore("areas", () => {
+  const areas = ref<area[]>([]);
 
+  const addAreas = (areasArray: area[]) => {
+    areas.value = areasArray;
+  };
 
-interface areaState {
- areas :  area[]
-}
+  const loadAreas = async () => {
+    const areas = await $fetch<area[]>("http://localhost:8080/api/v1/areas", {
+      headers: {
+        token: "123abc",
+      },
+    });
+    addAreas(areas);
+  };
 
-export const useAreaStore =  defineStore("areas" ,{
-   state : () :areaState =>({
-     areas : []
-   }),
-   actions : {
-     addAreas( areas : area[]) {
-       this.areas = areas
-     },
-     async loadAreas () {
-      console.log('cargando areas')
-       const res = await $fetch('http://localhost:8080/api/v1/areas', {
-         headers: {
-           token: '123abc'
-         }
-       })
-      this.areas = res as area[]
-     }
-   },
-
-} )
+  return { areas, addAreas, loadAreas };
+});

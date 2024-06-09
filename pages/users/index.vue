@@ -60,7 +60,7 @@
 <script setup lang="ts">
 
 definePageMeta({
-    middleware: ["auth", "is-admin"]
+    middleware: ["auth", "is-admin"],
 })
 
 import { FilterMatchMode } from 'primevue/api'
@@ -70,23 +70,11 @@ const titlePanel = ref('Usuario - Agregar')
 
 const filters: any = ref({})
 
-const users = ref([])
-const { $locally } = useNuxtApp();
 
-const showUsers = async () => {
-    const data = await fetch("/api/users", {
-        headers: {
-            token: `${$locally.getItem()}`
-        }
-    });
-    users.value = await data.json();
-    // console.log(await data.json());
-}
-
-showUsers()
+const { users, loadUsers } = useUsers()
 
 const refreshTable = () => {
-    showUsers()
+    loadUsers()
 }
 
 const modalFields = ref({

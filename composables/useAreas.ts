@@ -13,16 +13,14 @@ export const useAreas = () => {
 
   const { areas } = storeToRefs(areaStore);
 
-  // const { $apiBase } = useNuxtApp();
-
   const getAreas = async () => {
     try {
-      const response = await $fetch(`/api/areas`, {
+      const response = await $fetch<area[]>(`/api/areas`, {
         headers: { 
           token: `${$locally.getItem()}`,
         },
       });
-      areaStore.addAreas(response as area[]);
+      areaStore.addAreas(response);
     } catch (error: any) {
       console.log({ error });
     }

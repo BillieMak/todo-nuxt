@@ -1,11 +1,16 @@
-import type { User } from "~/interfaces/user"
+import type { User } from "~/interfaces/user";
 
-interface UserState{
-    users: User[]
-}
+export const useUserStore = defineStore("users", () => {
+  const users = ref<User[]>([]);
 
-export const useAreaStore =  defineStore("users" ,{
-    state : () :UserState =>({
-      users: []
-    })
-})
+  const setUsers = (usersArray: User[]) => {
+    users.value = usersArray;
+  };
+
+  return {
+    users,
+
+    // ACTIONS
+    setUsers,
+  };
+});

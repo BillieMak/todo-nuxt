@@ -1,24 +1,23 @@
 import {defineStore} from "pinia"
 import type { Document } from "~/interfaces/document"
 
+export const useDocumentsStore = defineStore('documents', ()=>{
+    const documents = ref<Array<Document>>([])
 
+    const isLoading = ref<boolean>(true)
+    
+    const setDocuments = (documentArray: Array<Document>) => {
+        isLoading.value = false
+        documents.value = documentArray
+    }
 
-interface DocumentState {
-    documents: Array<Document>
-    isLoading: boolean
-}
+    return {
+        // ESTATE 
+        documents,
+        isLoading,
 
-export const useDocumentsStore = defineStore('documents', {
-    state: () : DocumentState => ({
-        documents: [],
-        isLoading: true,
-    }),
-    getters: {
-        getDocuments: (state) => state.documents
-    },
-    actions: {
-        setDocuments(documents: Array<Document>) {
-            this.documents = documents
-        }
+        // ACTIONS
+        setDocuments
+        
     }
 })

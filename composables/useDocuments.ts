@@ -1,3 +1,4 @@
+import type { Document } from "~/interfaces/document";
 import { useDocumentsStore } from "~/store/documentsStore";
 
 export const useDocuments = () => {
@@ -9,13 +10,13 @@ export const useDocuments = () => {
   const { documents } = storeToRefs(documentsStore);
 
   const fillDocuments = async() => {
-    const data = await fetch(`/api/documents`, {
+    const documents = await $fetch<Document[]>(`/api/documents`, {
       headers: {
         token: `${$locally.getItem()}`
       }
     })
     // console.log(`${$locally.getItem("tokenid")}`)
-    documentsStore.setDocuments(await data.json())
+    documentsStore.setDocuments(documents)
   };
 
   return {
