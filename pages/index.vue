@@ -30,16 +30,16 @@ const router = useRouter();
 
 const { isLogged } = useAuth();
 
-useHead({
-   title: 'Dashboard',
-   link: [
-      {
-         rel: "preload",
-         as: "image",
-         href: "/imagebot"
-      }
-   ]
-})
+// useHead({
+//    title: 'Dashboard',
+//    link: [
+//       {
+//          rel: "preload",
+//          as: "image",
+//          href: "/imagebot"
+//       }
+//    ]
+// })
 
 onMounted(() => {
    if (!visible.value && !isLogged.value) {
