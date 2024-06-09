@@ -1,48 +1,48 @@
-import type { Auth } from "~/interfaces/auth";
+import type { UserAuth } from "~/interfaces/auth";
 
-interface AuthState {
-  auth: Auth;
-  token: string;
-}
+export const useAuthStore = defineStore("auth", () => {
+  const auth = ref<UserAuth>({
+    email: "",
+    name: "",
+    rolName: "",
+  });
 
-export const useAuthStore = defineStore("auth", {
-  state: (): AuthState => ({
-    auth: {
+  const token = ref<string>("");
+
+  const login = (userAuth: UserAuth, tokenUser: string) => {
+    auth.value = userAuth;
+    token.value = tokenUser;
+  };
+
+  const logout = () => {
+    auth.value = {
       email: "",
       name: "",
       rolName: "",
-    },
-    token: "",
-  }),
-  actions: {
-    login(auth: Auth, token: string) {
-      this.auth = auth;
-      this.token = token;
-    },
-    logout() {
-      this.auth = {
-        email: "",
-        name: "",
-        rolName: "",
-      };
-      this.token = "";
+    };
+    token.value = "";
+  };
 
-      useCookie("user").value = null;
-      useCookie("token").value = null;
-    },
+  const loadToken = () => {
+    token.value = useCookie("token").value ?? "";
+    const userCookie: any = useCookie("user").value;
 
-    loadToken() {
-      this.token = useCookie("token").value ?? "";
-      const userCookie: any = useCookie("user").value;
+    if (userCookie) {
+      auth.value.email = userCookie.email;
+      auth.value.name = userCookie.name;
+      auth.value.rolName = userCookie.rolName;
+    }
+  };
 
-      if (userCookie) {
-        this.auth.email = userCookie.email;
-        this.auth.name = userCookie.name;
-        this.auth.rolName = userCookie.rolName;
-      }
-    },
-    getToken() {
-      return this.token;
-    },
-  },
+  return {
+    //state
+    auth,
+    token,
+    //actions
+    logout,
+    login,
+    loadToken,
+    //getters
+    getToken: computed(() => token.value),
+  };
 });

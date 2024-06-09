@@ -1,4 +1,4 @@
-export interface Auth {
+export interface UserAuth {
     email: string,
     name: string,
     rolName: string,

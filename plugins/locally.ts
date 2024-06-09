@@ -7,7 +7,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     provide: {
       locally: {
         getItem() {
-          return authStore.getToken();
+          return authStore.token;
         },
       },
     },
