@@ -21,6 +21,9 @@ export const useAuthStore = defineStore("auth", () => {
       rolName: "",
     };
     token.value = "";
+
+    useCookie("token").value = "";
+    useCookie("user").value = "";
   };
 
   const loadToken = () => {

@@ -4,7 +4,7 @@ export const useAuth = () => {
   const toast = useToast();
 
   const authStore = useAuthStore();
-  const { auth } = storeToRefs(authStore);
+  const { auth, token } = storeToRefs(authStore);
 
   const username = ref("");
   const password = ref("");
@@ -12,7 +12,7 @@ export const useAuth = () => {
   const router = useRouter();
 
   const isLogged = computed(() => {
-    return !!authStore.token && !!authStore.auth.name;
+    return Boolean(authStore.token);
   });
 
   const login = async () => {
@@ -50,8 +50,6 @@ export const useAuth = () => {
 
     router.push("/login");
   };
-
-  // const getToken = (): string => $locally.getItem("token") ?? "teva es traca";
 
   return {
     // getToken,
