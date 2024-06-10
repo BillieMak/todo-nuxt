@@ -1,5 +1,7 @@
 <template>
-  <p class="text-center">Copyright © Created By David Rivera</p>
+  <p class="text-center"> <span>
+    {{ new Date().getFullYear() }}
+  </span> Copyright © Created By David Rivera</p>
 </template>
 <style scoped>
 .text-center{

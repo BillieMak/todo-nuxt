@@ -15,6 +15,9 @@ onMounted(() => {
 </script>
 
 <style>
+body{
+    background-color: #F0F0F0;
+}
 h1 {
     text-align: center;
 }
