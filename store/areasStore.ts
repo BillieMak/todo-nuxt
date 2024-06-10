@@ -7,15 +7,5 @@ export const useAreaStore = defineStore("areas", () => {
   const addAreas = (areasArray: area[]) => {
     areas.value = areasArray;
   };
-
-  const loadAreas = async () => {
-    const areas = await $fetch<area[]>("http://localhost:8080/api/v1/areas", {
-      headers: {
-        token: "123abc",
-      },
-    });
-    addAreas(areas);
-  };
-
-  return { areas, addAreas, loadAreas };
+  return { areas, addAreas, };
 });
