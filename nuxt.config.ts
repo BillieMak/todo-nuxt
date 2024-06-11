@@ -30,6 +30,7 @@ export default defineNuxtConfig({
         "Button",
         "Badge",
         "Column",
+        "Calendar",
         "DataTable",
         "Dialog",
         "Dropdown",

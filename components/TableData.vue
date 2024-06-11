@@ -1,18 +1,25 @@
 <template>
     <div class="card">
         <DataTable :value="attendances" v-model:filters="filters" filterDisplay="menu" :rows="10" paginator
-            :globalFilterFields="['person', 'area', 'state','created_by']">
+            :globalFilterFields="['person', 'area', 'state', 'created_by', 'created_at']">
             <template #header>
                 <div class="header">
                     <span class="text-xl text-900 font-bold text-white">Incidencias</span>
                     <div class="flex">
+                        <Calendar v-model="calendarPicker" 
+                        showIcon :showOnFocus="false" 
+                        date-format="dd/mm/yy"
+                        @date-select="onDateSelect"
+                        showTime hourFormat="24"
+                        inputId="buttondisplay" />
                         <IconField iconPosition="left">
                             <InputIcon>
                                 <i class="pi pi-search" />
                             </InputIcon>
                             <InputText v-model="filters['global'].value" placeholder="Buscar por Area o Persona" />
                         </IconField>
-                        <Button v-if="isLogged" icon="pi pi-plus" severity="secondary" rounded raised @click="openModal" />
+                        <Button v-if="isLogged" icon="pi pi-plus" severity="secondary" rounded raised
+                            @click="openModal" />
                     </div>
                 </div>
             </template>
@@ -25,7 +32,6 @@
             <Column field="created_by" header="Registrado"></Column>
             <Column field="problem" header="Problema"></Column>
             <Column field="area" header="Area"></Column>
-
             <Column field="state" header="Status">
                 <template #body="{ data }">
                     <Tag :value="getStateName(data.state)" :severity="getSeverity(data.state)" />
@@ -62,6 +68,8 @@ const { isLogged } = useAuth()
 
 const filters: any = ref({})
 
+const calendarPicker = ref()
+
 const isVisible = ref(false)
 
 const menu = ref();
@@ -95,19 +103,29 @@ const items = ref([
 ]);
 
 
+
 const initFilters = (): void => {
     filters.value = {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        created_at: { value: null, matchMode: FilterMatchMode.DATE_BEFORE },
     }
 }
 
 initFilters()
 
+const onDateSelect = (date : any): void => {
+    calendarPicker.value = new Date(date).toISOString()
+    filters.value['created_at'].value = new Date(date)
+    // console.log("calendar",new Date(date).toISOString());
+    console.log(calendarPicker.value);
+    
+}
+
 
 const formatDate = computed(() => {
     return (date: string) => {
         if (!date) return
-        return new Date(date).toLocaleString('es-ES')
+        return new Date(date).toLocaleString('es-PE')
     }
 })
 
@@ -156,7 +174,6 @@ table button .p-button-icon {
 }
 </style>
 <style scoped>
-
 .header {
     display: flex;
     justify-content: space-between;
@@ -166,7 +183,7 @@ table button .p-button-icon {
 
 .flex {
     display: flex;
-    gap: 5px;
+    gap: 6px;
     align-items: center;
 
 }
