@@ -1,13 +1,13 @@
 <template>
-  <div class="bg-cyan-100 flex flex-column h-screen">
+  <div class="flex-column h-screen">
     <header>
       <NavBar :base-id="'menu'" v-model="visible" />
       <SideBarComponent v-model="visible" />
     </header>
-    <main class="bg-blue-100">
+    <main>
       <slot />
     </main>
-    <footer class="bg-red-100">
+    <footer>
       <Footer />
     </footer>
   </div>
