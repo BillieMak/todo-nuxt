@@ -4,7 +4,7 @@
             :globalFilterFields="['person', 'area', 'state','created_by']">
             <template #header>
                 <div class="header">
-                    <span class="text-xl text-900 font-bold">Incidencias</span>
+                    <span class="text-xl text-900 font-bold text-white">Incidencias</span>
                     <div class="flex">
                         <IconField iconPosition="left">
                             <InputIcon>
@@ -134,14 +134,14 @@ const toggle = (event: Event) => {
 <style>
 .card {
     /* outline: 2px solid red; */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
     width: 80vw;
     margin: 0 auto;
     border-radius: 10px;
 }
 
 .p-datatable {
-    box-shadow: 0 0 10px #00000033;
+    box-shadow: 0 0 3px #00000033;
     overflow: hidden;
     border-radius: inherit;
 }

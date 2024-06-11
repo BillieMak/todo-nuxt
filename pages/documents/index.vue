@@ -5,7 +5,7 @@
             <DataTable :value="documents" :rows="10" paginator>
                 <template #header>
                     <div class="header">
-                        <span class="text-xl text-900 font-bold">Descargar Documentos</span>
+                        <span class="text-xl text-900 font-bold text-white">Descargar Documentos</span>
                         <Button icon="pi pi-refresh" severity="secondary" rounded raised @click="fillDocuments" />
                     </div>
                 </template>
@@ -67,7 +67,7 @@ const formatDate = computed(() => {
 <style scoped>
 .card {
     /* outline: 2px solid red; */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
     width: 70vw;
     margin: 0 auto;
 }

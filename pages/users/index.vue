@@ -7,7 +7,7 @@
                     selection-mode="single" :globalFilterFields="['name', 'username', 'email', 'status']">
                     <template #header>
                         <div class="header">
-                            <span class="text-xl text-900 font-bold">Usuarios</span>
+                            <span class="text-xl text-900 font-bold text-white">Usuarios</span>
                             <div class="flex">
                                 <IconField iconPosition="left">
                                     <InputIcon>
@@ -48,8 +48,8 @@
                 </div>
                 <template #footer>
                     <div class="flex">
-                        <Button label="Cancelar" @click="onCancel" icon="pi pi-times" severity="danger" raised />
-                        <Button label="Save" icon="pi pi-check" severity="success" raised />
+                        <Button label="Cancel" @click="onCancel" severity="danger" raised />
+                        <Button label="Save" severity="info" raised />
                     </div>
                 </template>
             </Panel>
@@ -132,7 +132,7 @@ const onRowClick = ({ data }: { data: any }) => {
 .flex {
     display: flex;
     gap: 5px;
-    justify-content: space-evenly;
+    justify-content: space-evenly   ;
     align-items: center;
     /* margin-top: 10px; */
     flex-wrap: wrap;
@@ -151,7 +151,7 @@ const onRowClick = ({ data }: { data: any }) => {
 }
 
 .panel {
-    box-shadow: 0 0 10px #00000033;
+    box-shadow: 0 0 2px #00000033;
 }
 
 .panel-body {

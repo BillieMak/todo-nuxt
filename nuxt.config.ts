@@ -55,6 +55,7 @@ export default defineNuxtConfig({
   },
   css: [
     "primevue/resources/themes/aura-light-blue/theme.css",
+    "primeflex/primeflex.css",
     "primeicons/primeicons.css",
   ],
 });

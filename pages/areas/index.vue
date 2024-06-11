@@ -3,10 +3,10 @@
         <h1>Areas</h1>
         <main class="flex">
             <div class="container-table">
-                <DataTable :value="areas" paginator :rows="8">
+                <DataTable :value="areas" paginator :rows="8" stripedRows selection-mode="single" @row-select="onRowClick">
                     <template #header>
                         <div class="header">
-                            <span class="text-xl text-900 font-bold">Areas</span>
+                            <span class="text-xl text-900 font-bold text-white">Areas</span>
                             <Button icon="pi pi-refresh" severity="secondary" rounded raised @click="getAreas" />
                         </div>
                     </template>
@@ -23,11 +23,13 @@
 
                 <div class="panel-body">
                     <label for="name">Nombre</label>
-                    <InputText id="name" type="text" />
+                    <InputText id="name" type="text" v-model="form.name" />
                 </div>
 
                 <template #footer>
-                    <Button label="Save" icon="pi pi-check" raised severity="success" />
+                    <Button label="Save" 
+                  
+                    raised />
                 </template>
             </Panel>
         </main>
@@ -40,7 +42,19 @@ definePageMeta({
     name: 'areas'
 })
 
-const {areas, getAreas} = useAreas()
+const { areas, getAreas } = useAreas()
+
+const titlePanel = ref()
+
+const form = ref({
+    name: ''
+})
+
+const onRowClick = ({ data }: { data: any }) => {
+    titlePanel.value = 'Usuario - Editando'
+    form.value = data
+}
+
 
 </script>
 <style scoped>
@@ -51,17 +65,20 @@ const {areas, getAreas} = useAreas()
     align-items: center;
     padding: 10px;
 }
-.container-table{
+
+.container-table {
     border-radius: 10px;
 }
-.header{
+
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 40px;
 }
+
 .panel {
-    box-shadow: 0 0 10px #00000033;
+    box-shadow: 0 0 2px #00000033;
 }
 
 .panel-body {
