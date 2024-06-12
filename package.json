@@ -12,6 +12,7 @@
   "dependencies": {
     "@nuxtjs/supabase": "^1.2.2",
     "@pinia/nuxt": "^0.5.1",
+    "axios": "^1.7.2",
     "nuxt": "^3.11.2",
     "primeicons": "^7.0.0",
     "primevue": "^3.52.0",
