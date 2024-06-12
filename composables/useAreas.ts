@@ -13,14 +13,20 @@ export const useAreas = () => {
 
   const { areas } = storeToRefs(areaStore);
 
+  const attendanceApi = useNuxtApp().$axios;
+
   const getAreas = async () => {
     try {
-      const response = await $fetch<area[]>(`/api/areas`, {
-        headers: { 
-          token: `${$locally.getItem()}`,
-        },
-      });
-      areaStore.addAreas(response);
+      // const response = await $fetch<area[]>(`/api/areas`, {
+      //   headers: { 
+      //     token: `${$locally.getItem()}`,
+      //   },
+      // });
+      
+      const {data} = await attendanceApi.get<area[]>(`/api/areas`)
+      
+      areaStore.addAreas(data);
+
     } catch (error: any) {
       console.log({ error });
     }

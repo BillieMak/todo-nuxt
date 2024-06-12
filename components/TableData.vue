@@ -6,13 +6,8 @@
                 <div class="header">
                     <span class="text-xl text-900 font-bold text-white">Incidencias</span>
                     <div class="flex">
-                        <Calendar v-model="calendarPicker" 
-                        showIcon :showOnFocus="false"   
-                        placeholder="Buscar por Fecha"
-                        date-format="dd/mm/yy"
-                        @date-select="onDateSelect"
-                        showTime hourFormat="24"
-                        inputId="buttondisplay" />
+                        <Calendar v-model="calendarPicker" showIcon :showOnFocus="false" placeholder="Buscar por Fecha"
+                            date-format="dd/mm/yy" @date-select="onDateSelect" inputId="buttondisplay" />
                         <IconField iconPosition="left">
                             <InputIcon>
                                 <i class="pi pi-search" />
@@ -103,23 +98,21 @@ const items = ref([
     }
 ]);
 
-
-
 const initFilters = (): void => {
     filters.value = {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        created_at: { value: null, matchMode: FilterMatchMode.DATE_BEFORE },
+        created_at: { value: null, matchMode: FilterMatchMode.DATE_IS },
     }
 }
 
 initFilters()
 
-const onDateSelect = (date : any): void => {
+const onDateSelect = (date: any): void => {
 
     filters.value['created_at'].value = new Date(date)
     // console.log("calendar",new Date(date).toISOString());
-  
-    
+
+
 }
 
 
