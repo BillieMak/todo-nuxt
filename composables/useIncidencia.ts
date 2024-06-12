@@ -7,6 +7,22 @@ interface StateNameMap {
   [key: number]: string;
 }
 
+
+const severity: SeverityMap = {
+  0: "success",
+  1: "info",
+  2: "warning",
+  3: "danger",
+};
+
+const stateName: StateNameMap = {
+  0: "Pendiente",
+  1: "En proceso",
+  2: "Cerrado",
+  3: "Cancelado",
+};
+
+
 export const useIncidencia = async () => {
   const attendanceStore = useAttendanceStore();
 
@@ -42,19 +58,6 @@ export const useIncidencia = async () => {
     return stateName[state];
   };
 
-  const severity: SeverityMap = {
-    0: "success",
-    1: "info",
-    2: "warning",
-    3: "danger",
-  };
-
-  const stateName: StateNameMap = {
-    0: "Pendiente",
-    1: "En proceso",
-    2: "Cerrado",
-    3: "Cancelado",
-  };
 
   return {
     attendances,

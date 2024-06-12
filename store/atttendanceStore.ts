@@ -1,37 +1,35 @@
 import { defineStore } from "pinia";
 import type { Atendance } from "~/interfaces/attendance";
 
+export const useAttendanceStore = defineStore("attendance", () => {
+  const attendances = ref<Array<Atendance>>([]);
 
+  const isLoading = ref<boolean>(true);
 
-interface attendanceState {
-  attendances: Array<Atendance>;
-  isLoading: boolean;
-}
+  const setAttendances = (attendancesArray: Array<Atendance>) => {
+    isLoading.value = false;
+    attendances.value = attendancesArray;
+  };
+  const existById = (item1: Atendance, item2: Atendance) =>
+    item1.id === item2.id;
 
-export const useAttendanceStore = defineStore("attendance", {
-  state: (): attendanceState => ({
-    attendances: [],
-    isLoading: true,
-  }),
-  getters: {
-    getAttendances: (state) => state.attendances,
-  },
-  actions: {
-    setAttendances(attendances: Array<Atendance>) {
-      this.attendances = attendances;
-    },
-    exist(item1: Atendance, item2: Atendance) {
-      return item1.id === item2.id;
-    },
-    addAttendance(attendance: Atendance) {
-        const index = this.attendances.findIndex((item) =>
-          this.exist(item, attendance)
-        );
-        if (index === -1) {
-          this.attendances.unshift(attendance);
-        }
-        this.attendances[index] = attendance;
-
+  const addAttendance = (attendance: Atendance) => {
+    attendance.created_at = new Date(attendance.created_at);
+    const index = attendances.value.findIndex((item) =>
+      existById(item, attendance)
+    );
+    if (index === -1) {
+      attendances.value.unshift(attendance);
     }
-  },
+    attendances.value[index] = attendance;
+  };
+
+  return {
+    attendances,
+    isLoading,
+    setAttendances,
+    addAttendance,
+    // GETTERS
+    getAttendances: computed(() => attendances.value),
+  };
 });

@@ -7,7 +7,8 @@
                     <span class="text-xl text-900 font-bold text-white">Incidencias</span>
                     <div class="flex">
                         <Calendar v-model="calendarPicker" 
-                        showIcon :showOnFocus="false" 
+                        showIcon :showOnFocus="false"   
+                        placeholder="Buscar por Fecha"
                         date-format="dd/mm/yy"
                         @date-select="onDateSelect"
                         showTime hourFormat="24"
@@ -114,10 +115,10 @@ const initFilters = (): void => {
 initFilters()
 
 const onDateSelect = (date : any): void => {
-    calendarPicker.value = new Date(date).toISOString()
+
     filters.value['created_at'].value = new Date(date)
     // console.log("calendar",new Date(date).toISOString());
-    console.log(calendarPicker.value);
+  
     
 }
 

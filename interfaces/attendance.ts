@@ -3,7 +3,7 @@ export interface Atendance {
     name: string;
     description: string;
     state: number;
-    created_at: string;
+    created_at: Date;
     updated_at: string;
     created_by: string;
     file: boolean;
