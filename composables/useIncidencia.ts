@@ -30,24 +30,34 @@ export const useIncidencia = () => {
 
   const { $apiBase } = useNuxtApp();
 
+  const eventSource = ref<EventSource>();
+
   const fillStore = (): void => {
-    const eventSource = new EventSource(`${$apiBase}/att`);
-    eventSource.onopen = (event) => {
+    eventSource.value = new EventSource(`${$apiBase}/att`);
+    eventSource.value.onopen = (event) => {
       // attendanceStore
     };
 
-    eventSource.onmessage = (event) => {
+    eventSource.value.onmessage = (event) => {
       const attendance = JSON.parse(event.data);
       attendanceStore.addAttendance(attendance);
     };
 
-    eventSource.onerror = (event) => {
+    eventSource.value.onerror = (event) => {
       console.log("conexion terminada");
     };
   };
 
   onMounted(() => {
     fillStore();
+  });
+
+  onUnmounted(() => {
+    eventSource.value?.close();
+  });
+
+  onDeactivated(() => {
+    eventSource.value?.close();
   });
 
   const getSeverity = (state: number): string => {
