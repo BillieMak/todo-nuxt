@@ -10,17 +10,18 @@
             <label for="person" class="font-semibold w-6rem">Usuario:</label>
             <InputText id="person" class="flex-auto" autocomplete="off" v-model="attendance.person"
                 aria-describedby="person-help" />
-            <small id="person-help">{{ hasErrors.person }}</small>
+            <small id="person-help" class="text-red-700">{{ hasErrors.person }}</small>
         </div>
         <div class="flex">
             <label for="problem" class="font-semibold w-6rem">Problema:</label>
             <InputText id="problem" class="flex-auto" autocomplete="off" v-model="attendance.problem"
                 aria-describedby="problem-help" />
-            <small id="problem-help">{{ hasErrors.problem }}</small>
+            <small id="problem-help" class="text-red-700">{{ hasErrors.problem }}</small>
         </div>
         <div class="flex">
             <label for="area" class="font-semibold w-6rem">Area:</label>
             <SelectFilter id="area" />
+            <small id="problem-help" class="text-red-700">{{ hasErrors.area }}</small>
         </div>
         <div class="flex">
             <label for="description" class="font-semibold w-6rem">Description:</label>
@@ -36,6 +37,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
+import { AxiosError } from 'axios';
 
 import { useModalFormStore } from '~/store/modalFormStore';
 
@@ -125,11 +127,16 @@ const onSave = async (): Promise<void> => {
         showToast('success', 'Incidencia Creada', 'Incidencia Creada con exito');
         clearFields()
         emit('closeModal', false)
-        return 
-    } catch (error: any) {
-        console.log(error.data)
-        hasErrors.value = error.data
-        showToast('error', 'Error Al Crear', 'Verificar Campos');
+        return
+    } catch (error) {
+        if (error instanceof AxiosError) {
+            console.log(error.response?.data)
+            hasErrors.value = error.response?.data
+            if (hasErrors.value.area) {
+                hasErrors.value.area = 'Seleccione Un Area'
+            }
+            showToast('error', 'Error Al Crear', 'Verificar Campos');
+        }
     }
 
 }
