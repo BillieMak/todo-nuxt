@@ -1,5 +1,5 @@
 <template>
-    <Dialog v-model:visible="getOpen" modal maximizable :header="'Incidencia - ' + getSelected?.id" :pt="{
+    <Dialog v-model:visible="modalStore.isOpen" modal maximizable :header="'Incidencia - ' + getSelected?.id" :pt="{
         root: 'border-none',
         mask: {
             style: 'backdrop-filter: blur(2px)'
@@ -7,7 +7,7 @@
         closeButton: {
             onclick: closeModal
         }
-    }" :style="{ width: '40rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+    }" :close-on-escape="true" :style="{ width: '40rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
         <div class="flex flex-column">
             <h3 class="w-full ">Usuario </h3>
             <span>{{ getSelected?.person }}</span>
@@ -73,7 +73,7 @@ const { $apiBase } = useNuxtApp()
 
 const urlUpload = `${$apiBase}/document/upload`;
 
-const { getOpen, getSelected } = storeToRefs(modalStore)
+const { getSelected } = storeToRefs(modalStore)
 
 
 //supabase 
