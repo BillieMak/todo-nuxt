@@ -56,7 +56,7 @@
 import { FilterMatchMode } from 'primevue/api'
 import { useModalDataStore } from '~/store/modalDataStore';
 
-const { getSeverity, getStateName, attendances } = await useIncidencia()
+const { getSeverity, getStateName, attendances } = useIncidencia()
 
 const modalStore = useModalDataStore()
 

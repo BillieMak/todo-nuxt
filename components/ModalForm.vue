@@ -8,13 +8,13 @@
         <span class="p-text-secondary block mb-5">Create a new attendance.</span>
         <div class="flex">
             <label for="person" class="font-semibold w-6rem">Usuario:</label>
-            <InputText id="person" class="flex-auto" autocomplete="off" v-model="attendance.setPerson"
+            <InputText id="person" class="flex-auto" autocomplete="off" v-model="attendance.person"
                 aria-describedby="person-help" />
             <small id="person-help">{{ hasErrors.person }}</small>
         </div>
         <div class="flex">
             <label for="problem" class="font-semibold w-6rem">Problema:</label>
-            <InputText id="problem" class="flex-auto" autocomplete="off" v-model="attendance.setProblem"
+            <InputText id="problem" class="flex-auto" autocomplete="off" v-model="attendance.problem"
                 aria-describedby="problem-help" />
             <small id="problem-help">{{ hasErrors.problem }}</small>
         </div>
@@ -24,7 +24,7 @@
         </div>
         <div class="flex">
             <label for="description" class="font-semibold w-6rem">Description:</label>
-            <Textarea id="description" class="flex-auto" auto-resize v-model="attendance.setDescription" rows="4" />
+            <Textarea id="description" class="flex-auto" auto-resize v-model="attendance.description" rows="4" />
         </div>
         <template #footer>
             <Button label="Cancel" text raised severity="danger" @click="onCancel" autofocus />
@@ -42,7 +42,8 @@ import { useModalFormStore } from '~/store/modalFormStore';
 import { useAttendanceStore } from '~/store/atttendanceStore';
 
 import { useToast } from 'primevue/usetoast';
-import Attendance from '~/plugin/attendance';
+
+import type { Attendance } from '../interfaces/attendance';
 
 
 const { $locally } = useNuxtApp()
@@ -63,21 +64,42 @@ const { getAttendance } = storeToRefs(modalFromStore)
 
 const selectedArea = computed(() => getAttendance.value.area)
 
-const attendance: Ref<Attendance> = ref(new Attendance('', '', '', '', ''))
+const attendance: Ref<Partial<Attendance>> = ref({
+    name: '',
+    problem: '',
+    description: '',
+    created_by: '',
+    person: '',
+    area: '',
 
-const hasErrors: Ref<Attendance> = ref(new Attendance('', '', '', '', ''))
+})
+
+const hasErrors: Ref<Partial<Attendance>> = ref({
+    name: '',
+    problem: '',
+    description: '',
+    created_by: '',
+    person: '',
+    area: '',
+
+})
 
 const emit = defineEmits(['closeModal'])
 
 const { $apiBase } = useNuxtApp();
 
-const { auth:user } = useAuth();
+const attendanceApi = useNuxtApp().$axios;
+
+const { auth: user } = useAuth();
 
 const clearFields = (): void => {
 
-    attendance.value = new Attendance('', '', '', '', '')
-
-    hasErrors.value = new Attendance('', '', '', '', '')
+    attendance.value = {
+        id: 0,
+        name: '',
+        description: '',
+        area: '',
+    }
 }
 
 const onCancel = (): void => {
@@ -88,34 +110,21 @@ const onCancel = (): void => {
 
 const onSave = async (): Promise<void> => {
 
-    attendance.value.setArea = selectedArea.value
-
+    //no authenticated
     if (!$locally.getItem()) {
         showToast('error', 'Debe Registrarse Primero', 'No estas Registrado');
         return
     }
+    attendance.value.area = selectedArea.value
+    attendance.value.created_by = user.value.name.toString()
 
-    attendance.value.setCreated_by = user.value.name.toString()
-
-    // console.log('token', $locally.getItem())
     try {
-        const response: any = await $fetch(`${$apiBase}/att`, {
-            headers: {
-                token: `${$locally.getItem()}`
-            },
-
-            method: 'POST',
-            body: JSON.stringify(attendance.value),
-            watch: false,
-        })
-
-        attendanceStore.addAttendance(response)
+        const { data } = await attendanceApi.post<Attendance>(`${$apiBase}/att`, attendance.value)
+        attendanceStore.addAttendance(data)
         showToast('success', 'Incidencia Creada', 'Incidencia Creada con exito');
         clearFields()
         emit('closeModal', false)
-        return
-
-
+        return 
     } catch (error: any) {
         console.log(error.data)
         hasErrors.value = error.data

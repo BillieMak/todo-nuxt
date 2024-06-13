@@ -23,7 +23,7 @@ const stateName: StateNameMap = {
 };
 
 
-export const useIncidencia = async () => {
+export const useIncidencia = () => {
   const attendanceStore = useAttendanceStore();
 
   const {attendances } = storeToRefs(attendanceStore);

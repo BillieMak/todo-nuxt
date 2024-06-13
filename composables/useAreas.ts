@@ -16,13 +16,7 @@ export const useAreas = () => {
   const attendanceApi = useNuxtApp().$axios;
 
   const getAreas = async () => {
-    try {
-      // const response = await $fetch<area[]>(`/api/areas`, {
-      //   headers: { 
-      //     token: `${$locally.getItem()}`,
-      //   },
-      // });
-      
+    try {      
       const {data} = await attendanceApi.get<area[]>(`/api/areas`)
       
       areaStore.addAreas(data);

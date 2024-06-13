@@ -1,19 +1,19 @@
 import { defineStore } from "pinia";
-import type { Atendance } from "~/interfaces/attendance";
+import type { Attendance } from "~/interfaces/attendance";
 
 export const useAttendanceStore = defineStore("attendance", () => {
-  const attendances = ref<Array<Atendance>>([]);
+  const attendances = ref<Array<Attendance>>([]);
 
   const isLoading = ref<boolean>(true);
 
-  const setAttendances = (attendancesArray: Array<Atendance>) => {
+  const setAttendances = (attendancesArray: Array<Attendance>) => {
     isLoading.value = false;
     attendances.value = attendancesArray;
   };
-  const existById = (item1: Atendance, item2: Atendance) =>
+  const existById = (item1: Attendance, item2: Attendance) =>
     item1.id === item2.id;
 
-  const addAttendance = (attendance: Atendance) => {
+  const addAttendance = (attendance: Attendance) => {
     attendance.created_at = new Date(attendance.created_at);
     const index = attendances.value.findIndex((item) =>
       existById(item, attendance)
