@@ -8,32 +8,34 @@
             onclick: closeModal
         }
     }" :style="{ width: '40rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-        <div class="flex">
-            <h3 class="w-6rem inline">Usuario </h3>
+        <div class="flex flex-column">
+            <h3 class="w-full ">Usuario </h3>
             <span>{{ getSelected?.person }}</span>
         </div>
-        <div class="flex">
-            <h3 class="w-6rem ">Fecha solicitada</h3>
+        <div class="flex flex-column">
+            <h3 class="w-full  ">Fecha solicitada</h3>
             <span>{{ formatDate(getSelected.created_at) }}</span>
         </div>
-        <div class="flex">
-            <h3 class="w-6rem ">Problema</h3>
+        <div class="flex flex-column">
+            <h3 class="w-full  ">Problema</h3>
             <span>{{ getSelected.problem }}</span>
         </div>
-        <div class="flex">
-            <h3 class="w-6rem ">Registrado por</h3>
+        <div class="flex flex-column">
+            <h3 class="w-full  ">Registrado por</h3>
             <span>{{ getSelected.created_by }}</span>
         </div>
-        <div class="flex">
-            <h3 class="w-6rem ">Area</h3>
+        <div class="flex flex-column">
+            <h3 class="w-full  ">Area</h3>
             <span>{{ getSelected.area }}</span>
         </div>
-        <div flex="flex">
-            <h3 class="w-6rem">Descripcion</h3>
-            <span>{{ getSelected.description }}</span>
+        <div class="flex flex-column">
+            <h3 class="w-full ">Descripcion</h3>
+            <span :class="{
+                'font-italic' : !getSelected.description
+            }">{{ getSelected.description || 'Sin Descripción'}}</span>
         </div>
         <div>
-            <h3 class="w-6rem">Archivo - Ficha</h3>
+            <h3 class="w-full">Archivo - Ficha</h3>
 
             <NuxtLink v-if="getSelected.codigo_file" target="_blank" :to="downloadFile(getSelected.codigo_file)">
                 <Button raised icon="pi pi-download" iconPos="right" label="Descargar Ficha" @click="" />
