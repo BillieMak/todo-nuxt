@@ -7,7 +7,8 @@
         closeButton: {
             onclick: closeModal
         }
-    }" :close-on-escape="true" :style="{ width: '40rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+    }" :close-on-escape="true" :dismissable-mask="true" :style="{ width: '40rem' }"
+        :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
         <div class="flex flex-column">
             <h3 class="w-full ">Usuario </h3>
             <span>{{ getSelected?.person }}</span>
@@ -31,8 +32,8 @@
         <div class="flex flex-column">
             <h3 class="w-full ">Descripcion</h3>
             <span :class="{
-                'font-italic' : !getSelected.description
-            }">{{ getSelected.description || 'Sin Descripción'}}</span>
+                'font-italic': !getSelected.description
+            }">{{ getSelected.description || 'Sin Descripción' }}</span>
         </div>
         <div>
             <h3 class="w-full">Archivo - Ficha</h3>
@@ -135,7 +136,7 @@ const generateCode = (): string => {
     return Math.random().toString(36).slice(-8);
 }
 
-const downloadFile =  (codigo: string): string => {
+const downloadFile = (codigo: string): string => {
     // window.location.href = `${$apiBase}/document/download/${codigo}`
     return supabase.storage.from('files').getPublicUrl(codigo).data.publicUrl
 }
