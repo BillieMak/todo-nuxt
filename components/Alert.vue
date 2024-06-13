@@ -15,8 +15,6 @@
 <script setup lang="ts">
 import { useAlertStore } from '~/store/alertStore';
 
-//  const visible : Ref<boolean> = ref(true)
-
 const alertStore = useAlertStore();
 
 const { alert } = storeToRefs(alertStore)
