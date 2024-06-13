@@ -49,6 +49,10 @@ export default defineNuxtConfig({
         "Toast",
       ],
     },
+    directives:{
+      // ADD DIRECTIVES tooltip
+      include: ["ripple", "tooltip"],
+    },
     composables: {
       include: ["useStyle"],
     },

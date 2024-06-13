@@ -6,10 +6,8 @@
                 <div class="header">
                     <span class="text-xl text-900 font-bold text-white">Incidencias</span>
                     <div class="flex">
-                        <Calendar v-model="filters['created_at'].value" showIcon :showOnFocus="false" placeholder="Buscar por Fecha"
-                            date-format="dd/mm/yy" 
-                           
-                            inputId="buttondisplay" />
+                        <Calendar v-model="filters['created_at'].value" showIcon :showOnFocus="false"
+                            placeholder="Buscar por Fecha" date-format="dd/mm/yy" inputId="buttondisplay" />
                         <IconField iconPosition="left">
                             <InputIcon>
                                 <i class="pi pi-search" />
@@ -47,6 +45,13 @@
                 </template>
             </Column>
         </DataTable>
+    </div>
+
+    <div
+        class="absolute flex flex-column py-4 gap-4 shadow-4 border-1 border-white w-5rem h-28rem bg-blue-600 border-round-xl top-0 right-0">
+        <Button v-tooltip.left="'Clear filters'" severity="secondary" raised rounded icon="pi pi-trash" @click="clearCalendar" />
+        <Button severity="secondary" raised rounded icon="pi pi-home" />
+        <Button severity="secondary" raised rounded icon="pi pi-home" />
     </div>
 
     <LazyModalForm :isVisible="isVisible" @closeModal="closeModal" />
@@ -99,6 +104,7 @@ const items = ref([
     }
 ]);
 
+
 const initFilters = (): void => {
     filters.value = {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -108,6 +114,11 @@ const initFilters = (): void => {
 
 initFilters()
 
+const clearCalendar = () => {
+    filters.value['created_at'].value = null;
+    filters.value['global'].value = null;
+
+}
 
 const formatDate = computed(() => {
     return (date: string) => {
