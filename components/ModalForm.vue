@@ -97,11 +97,17 @@ const { auth: user } = useAuth();
 const clearFields = (): void => {
 
     attendance.value = {
-        id: 0,
         name: '',
         description: '',
         area: '',
         person: '',
+    }
+
+    hasErrors.value = {
+        name: '',
+        description: '',
+        area: '',
+        person: ''
     }
 }
 
@@ -130,7 +136,6 @@ const onSave = async (): Promise<void> => {
         return
     } catch (error) {
         if (error instanceof AxiosError) {
-            console.log(error.response?.data)
             hasErrors.value = error.response?.data
             if (hasErrors.value.area) {
                 hasErrors.value.area = 'Seleccione Un Area'
