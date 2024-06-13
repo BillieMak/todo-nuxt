@@ -6,8 +6,10 @@
                 <div class="header">
                     <span class="text-xl text-900 font-bold text-white">Incidencias</span>
                     <div class="flex">
-                        <Calendar v-model="calendarPicker" showIcon :showOnFocus="false" placeholder="Buscar por Fecha"
-                            date-format="dd/mm/yy" @date-select="onDateSelect" inputId="buttondisplay" />
+                        <Calendar v-model="filters['created_at'].value" showIcon :showOnFocus="false" placeholder="Buscar por Fecha"
+                            date-format="dd/mm/yy" 
+                           
+                            inputId="buttondisplay" />
                         <IconField iconPosition="left">
                             <InputIcon>
                                 <i class="pi pi-search" />
@@ -64,7 +66,6 @@ const { isLogged } = useAuth()
 
 const filters: any = ref({})
 
-const calendarPicker = ref()
 
 const isVisible = ref(false)
 
@@ -106,14 +107,6 @@ const initFilters = (): void => {
 }
 
 initFilters()
-
-const onDateSelect = (date: any): void => {
-
-    filters.value['created_at'].value = new Date(date)
-    // console.log("calendar",new Date(date).toISOString());
-
-
-}
 
 
 const formatDate = computed(() => {
