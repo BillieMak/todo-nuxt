@@ -99,6 +99,7 @@ const clearFields = (): void => {
         name: '',
         description: '',
         area: '',
+        person: '',
     }
 }
 
