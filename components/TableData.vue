@@ -124,8 +124,8 @@ const formatDate = computed(() => {
 })
 
 
-const showData = (data: object): void => {
-    modalStore.setSelected(data)
+const showData = (dataRow: object): void => {
+    modalStore.setSelected(dataRow)
     modalStore.open()
 }
 
@@ -133,8 +133,8 @@ const openModal = (): void => {
     isVisible.value = true
 }
 
-const closeModal = (v: boolean): void => {
-    isVisible.value = v
+const closeModal = (visible: boolean): void => {
+    isVisible.value = visible
 }
 
 
