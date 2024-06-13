@@ -7,7 +7,6 @@ interface StateNameMap {
   [key: number]: string;
 }
 
-
 const severity: SeverityMap = {
   0: "success",
   1: "info",
@@ -22,17 +21,29 @@ const stateName: StateNameMap = {
   3: "Cancelado",
 };
 
+const attendanceApi = useNuxtApp().$axios;
 
 export const useIncidencia = () => {
   const attendanceStore = useAttendanceStore();
 
-  const {attendances } = storeToRefs(attendanceStore);
+  const { attendances } = storeToRefs(attendanceStore);
 
   const { $apiBase } = useNuxtApp();
 
   const eventSource = ref<EventSource>();
 
-  const fillStore = (): void => {
+  const fillStore = async () => {
+    //TODO: hacer una peticion para traer for fechas
+    const res = await attendanceApi.post(
+      `${$apiBase}/attdate`,
+      {
+        date: "2022-01-01",
+      },
+      {
+        responseType: "stream",
+      }
+    );
+
     eventSource.value = new EventSource(`${$apiBase}/att`);
     eventSource.value.onopen = (event) => {
       // attendanceStore
@@ -67,7 +78,6 @@ export const useIncidencia = () => {
   const getStateName = (state: number): string => {
     return stateName[state];
   };
-
 
   return {
     attendances,
