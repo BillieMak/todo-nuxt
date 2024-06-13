@@ -1,14 +1,14 @@
 <template>
-    <Dialog v-model:visible="alert.visible" :closable="false" modal dismissableMask class="dialog"
+    <Dialog v-model:visible="visible" :closable="false" modal dismissableMask class="dialog"
         :breakpoints="{ '960px': '50vw', '500px': '80vw' }">
         <template #header>
             <h3 class="m-0 flex">
-                <span>{{ alert.title }}</span>
+                <span>{{ alertStore.alert.title }}</span>
                 <i class="pi pi-lock"> </i>
             </h3>
         </template>
         <p class="m-0">
-            {{ alert.message }}
+            {{ alertStore.alert.message }}
         </p>
     </Dialog>
 </template>
@@ -16,21 +16,20 @@
 import { useAlertStore } from '~/store/alertStore';
 
 const alertStore = useAlertStore();
-
-const { alert } = storeToRefs(alertStore)
+const {visible } = storeToRefs(alertStore);
 
 onMounted(() => {
-    if (alert.value.visible) {
+    if (visible.value) {
         setTimeout(() => {
-            alert.value.visible = false
-        }, alert.value.life)
+            visible.value = false
+        }, alertStore.alert.life)
     }
 })
-watch(() => alert.value.visible, (newValue, _) => {
+watch(() => visible.value, (newValue, _) => {
     if (newValue) {
         setTimeout(() => {
-            alert.value.visible = false
-        }, alert.value.life)
+           visible.value = false
+        }, alertStore.alert.life)
     }
 });
 

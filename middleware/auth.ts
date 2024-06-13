@@ -14,7 +14,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
       title: "Session",
       message: "Inicie Sesion Primero",
       life: 2500,
-      visible: true,
     });     
     return navigateTo("/");
   }

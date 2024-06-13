@@ -3,26 +3,24 @@ import { defineStore } from 'pinia'
 interface Alert {
   message: string,
   life:number,
-  visible: boolean,
   title: string
 }
 
 export const useAlertStore = defineStore('alert', ()=>{
-
-  const alert = ref<Alert>({
-    message: '',
-    life: 0,
-    visible: false,
-    title: ''
+  const alert = reactive<Alert>({
+    message: 'Prueba',
+    life: 800,
+    title: 'David Rivera'
   })
 
-  const addAlert = (alert: Alert) => {
-    alert.visible = true
-    alert.life = alert.life
-    alert.title = alert.title
-    alert.message = alert.message
+  const visible = ref(false)
+
+  const addAlert = (alertState: Alert) => {
+    visible.value = true
+    alert.life = alertState.life
+    alert.title = alertState.title
+    alert.message = alertState.message
   }
 
-
-  return { alert, addAlert }
+  return { alert, addAlert, visible }
 })
