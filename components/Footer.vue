@@ -1,7 +1,7 @@
 <template>
   <p class="text-center"> <span>
     {{ new Date().getFullYear() }}
-  </span> Copyright © Created By David Rivera</p>
+  </span> Copyright © Created By BillieMak</p>
 </template>
 <style scoped>
 .text-center{
