@@ -10,4 +10,5 @@ export interface Attendance {
     updated_at: string;
     created_by: string;
     file: boolean;
+    assigned_person?: string
 }
