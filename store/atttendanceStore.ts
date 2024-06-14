@@ -41,7 +41,7 @@ export const useAttendanceStore = defineStore("attendance", () => {
   const addAttendance = (attendance: Attendance) => {
     attendance.created_at = new Date(attendance.created_at);
     const index = attendances.value.findIndex((item) =>
-      isEqual(item, attendance)
+      item.id === attendance.id
     );
     if (index === -1) {
       attendances.value.unshift(attendance);
@@ -50,11 +50,15 @@ export const useAttendanceStore = defineStore("attendance", () => {
   };
 
   return {
+    // STATE
     attendances,
-    isLoading,
-    setAttendances,
-    addAttendance,
     // GETTERS
     getAttendances: computed(() => attendances.value),
+    isLoading,
+
+    // actions
+    setAttendances,
+    addAttendance,
+    isEqual,
   };
 });

@@ -1,204 +1,276 @@
 <template>
-    <div class="card">
-        <DataTable :value="attendances" v-model:filters="filters" filterDisplay="menu" :rows="10" paginator
-            :globalFilterFields="['person', 'area', 'state', 'created_by', 'created_at']">
-            <template #header>
-                <div class="header">
-                    <span class="text-xl text-900 font-bold text-white">Incidencias</span>
-                    <div class="flex">
-                        <Calendar v-model="filters['created_at'].value" showIcon :showOnFocus="false"
-                            placeholder="Buscar por Fecha" date-format="dd/mm/yy" inputId="buttondisplay" />
-                        <IconField iconPosition="left">
-                            <InputIcon>
-                                <i class="pi pi-search" />
-                            </InputIcon>
-                            <InputText v-model="filters['global'].value" placeholder="Buscar por Area o Persona" />
-                        </IconField>
-                        <Button v-if="isLogged" icon="pi pi-plus" severity="secondary" rounded raised
-                            @click="openModal" />
-                    </div>
-                </div>
-            </template>
-            <Column field="person" header="Usuario"></Column>
-            <Column field="created_at" header="Fecha" :body="formatDate">
-                <template #body="{ data }">
-                    {{ formatDate(data.created_at) }}
-                </template>
-            </Column>
-            <Column field="created_by" header="Registrado"></Column>
-            <Column field="problem" header="Problema"></Column>
-            <Column field="area" header="Area"></Column>
-            <Column field="state" header="Status">
-                <template #body="{ data }">
-                    <Tag :value="getStateName(data.state)" :severity="getSeverity(data.state)" />
-                </template>
-            </Column>
-            <Column header="Actions">
-                <template #body="{ data }">
-                    <div class="flex">
-                        <Button icon="pi pi-eye" @click="showData(data)" text rounded aria-label="Show" />
-                        <div>
-                            <Button icon="pi pi-pencil" @click="toggle" text rounded aria-label="Show" />
-                            <LazyMenu ref="menu" id="overlay_menu" :model="items" :popup="true" />
-                        </div>
-                    </div>
-                </template>
-            </Column>
-        </DataTable>
+  <div class="card">
+    <DataTable
+      :value="attendances"
+      v-model:filters="filters"
+      filterDisplay="menu"
+      :rows="10"
+      paginator
+      :globalFilterFields="[
+        'person',
+        'area',
+        'state',
+        'created_by',
+        'created_at',
+      ]"
+    >
+      <template #header>
+        <div class="header">
+          <span class="text-xl text-900 font-bold text-white">Incidencias</span>
+          <div class="flex">
+            <Calendar
+              v-model="filters['created_at'].value"
+              showIcon
+              :showOnFocus="false"
+              placeholder="Buscar por Fecha"
+              date-format="dd/mm/yy"
+              inputId="buttondisplay"
+            />
+            <IconField iconPosition="left">
+              <InputIcon>
+                <i class="pi pi-search" />
+              </InputIcon>
+              <InputText
+                v-model="filters['global'].value"
+                placeholder="Buscar por Area o Persona"
+              />
+            </IconField>
+            <Button
+              v-if="isLogged"
+              icon="pi pi-plus"
+              severity="secondary"
+              rounded
+              raised
+              @click="openModal"
+            />
+          </div>
+        </div>
+      </template>
+      <Column field="person" header="Usuario"></Column>
+      <Column field="created_at" header="Fecha" :body="formatDate">
+        <template #body="{ data }">
+          {{ formatDate(data.created_at) }}
+        </template>
+      </Column>
+      <Column field="created_by" header="Registrado"></Column>
+      <Column field="problem" header="Problema"></Column>
+      <Column field="area" header="Area"></Column>
+      <Column field="state" header="Status">
+        <template #body="{ data }">
+          <Tag
+            :value="getStateName(data.state)"
+            :severity="getSeverity(data.state)"
+          />
+        </template>
+      </Column>
+      <Column header="Actions">
+        <template #body="{ data }">
+          <div class="flex">
+            <Button
+              icon="pi pi-eye"
+              @click="showData(data)"
+              text
+              rounded
+              aria-label="Show"
+            />
+            <div>
+              <Button
+                icon="pi pi-pencil"
+                @click="toggle($event, data.id)"
+                text
+                rounded
+                aria-label="Show"
+              />
+              <LazyMenu
+                ref="menu"
+                id="overlay_menu"
+                :model="items"
+                :popup="true"
+              />
+            </div>
+          </div>
+        </template>
+      </Column>
+    </DataTable>
     <div
-        class="absolute flex flex-column py-4 gap-4 shadow-4 border-1 
-        border-white w-4rem h-auto bg-blue-600 border-round-xl top-50 right-0">
-        <Button :style="{':disabled': {
-            'cursor': 'not-allowed'
-        }}" v-tooltip.left="'Clear filters'" severity="secondary" 
+      class="absolute flex flex-column py-4 gap-4 shadow-4 border-1 border-white w-4rem h-auto bg-blue-600 border-round-xl top-50 right-0"
+    >
+      <Button
+        :style="{
+          ':disabled': {
+            cursor: 'not-allowed',
+          },
+        }"
+        v-tooltip.left="'Clear filters'"
+        severity="secondary"
         :disabled="checkFields"
-        raised rounded icon="pi pi-filter-slash" @click="clearCalendar" />
-        <Button  severity="secondary" raised rounded icon="pi pi-home" />
-        <Button  severity="secondary" raised rounded icon="pi pi-home" />
+        raised
+        rounded
+        icon="pi pi-filter-slash"
+        @click="clearCalendar"
+      />
+      <Button severity="secondary" raised rounded icon="pi pi-home" />
+      <Button severity="secondary" raised rounded icon="pi pi-home" />
     </div>
-    </div>
+  </div>
 
-
-    <LazyModalForm :isVisible="isVisible" @closeModal="closeModal" />
-    <ModalData />
+  <LazyModalForm :isVisible="isVisible" @closeModal="closeModal" />
+  <ModalData />
 </template>
 
 <script setup lang="ts">
+import { FilterMatchMode } from "primevue/api";
+import { useModalDataStore } from "~/store/modalDataStore";
+import { useToast } from "primevue/usetoast";
 
-import { FilterMatchMode } from 'primevue/api'
-import { useModalDataStore } from '~/store/modalDataStore';
+const { getSeverity, getStateName, attendances, cancelAttendance } =
+  useIncidencia();
 
-const { getSeverity, getStateName, attendances } = useIncidencia()
+const toast = useToast();
 
-const modalStore = useModalDataStore()
+const modalStore = useModalDataStore();
 
-const { isLogged } = useAuth()
+const { isLogged } = useAuth();
 
-const filters: any = ref({})
+const filters: any = ref({});
 
+const attendanceId = ref();
 
-const isVisible = ref(false)
+const isVisible = ref(false);
 
 const menu = ref();
 const items = ref([
-    {
-        label: 'Options',
-        items: [
-            {
-                label: 'Cancel',
-                icon: 'pi pi-times',
-                command: () => {
-                    alert('Cancel')
-                }
-            },
-            {
-                label: 'Complete',
-                icon: 'pi pi-check',
-                command: () => {
-                    alert('Complete')
-                }
-            },
-            {
-                label: 'Asign person',
-                icon: 'pi pi-user-plus',
-                command: () => {
-                    alert('asignar Persona')
-                }
-            }
-        ]
-    }
+  {
+    label: "Options",
+    items: [
+      {
+        label: "Cancel",
+        icon: "pi pi-times",
+        command: async () => {
+          // alert(attendanceId.value)
+          const ok = await cancelAttendance(attendanceId.value);
+          if (ok) {
+            toast.add({
+              severity: "success",
+              summary: "Success",
+              detail: "Incidencia Cancelada",
+              life: 3000,
+              group: "tr",
+            });
+            return;
+          }
+          toast.add({
+            severity: "error",
+            summary: "Error",
+            detail: "Incidencia No Cancelada",
+            life: 3000,
+            group: "tr",
+          });
+        },
+      },
+      {
+        label: "Complete",
+        icon: "pi pi-check",
+        command: () => {
+          alert("Complete");
+        },
+      },
+      {
+        label: "Asign person",
+        icon: "pi pi-user-plus",
+        command: () => {
+          alert("asignar Persona");
+        },
+      },
+    ],
+  },
 ]);
 
-
 const initFilters = (): void => {
-    filters.value = {
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        created_at: { value: null, matchMode: FilterMatchMode.DATE_IS },
-    }
-}
-
-initFilters()
-
-const clearCalendar = () => {
-    filters.value['created_at'].value = null;
-    filters.value['global'].value = null;
-
-}
-
-const checkFields = computed(() => {
-    return !(filters.value['created_at'].value || filters.value['global'].value)
-})
-
-const formatDate = computed(() => {
-    return (date: string) => {
-        if (!date) return
-        return new Date(date).toLocaleString('es-PE')
-    }
-})
-
-
-const showData = (dataRow: object): void => {
-    modalStore.setSelected(dataRow)
-    modalStore.open()
-}
-
-const openModal = (): void => {
-    isVisible.value = true
-}
-
-const closeModal = (visible: boolean): void => {
-    isVisible.value = visible
-}
-
-
-const toggle = (event: Event) => {
-    menu.value.toggle(event);
+  filters.value = {
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    created_at: { value: null, matchMode: FilterMatchMode.DATE_IS },
+  };
 };
 
+initFilters();
+
+const clearCalendar = () => {
+  filters.value["created_at"].value = null;
+  filters.value["global"].value = null;
+};
+
+const checkFields = computed(() => {
+  return !(filters.value["created_at"].value || filters.value["global"].value);
+});
+
+const formatDate = computed(() => {
+  return (date: string) => {
+    if (!date) return;
+    return new Date(date).toLocaleString("es-PE");
+  };
+});
+
+const showData = (dataRow: object): void => {
+  modalStore.setSelected(dataRow);
+  modalStore.open();
+};
+
+const openModal = (): void => {
+  isVisible.value = true;
+};
+
+const closeModal = (visible: boolean): void => {
+  isVisible.value = visible;
+};
+
+const toggle = (event: Event, id: number) => {
+  attendanceId.value = id;
+  menu.value.toggle(event);
+};
 </script>
 <style>
 .card {
-    /* outline: 2px solid red; */
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-    width: 80vw;
-    margin: 0 auto;
-    border-radius: 10px;
+  /* outline: 2px solid red; */
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  width: 80vw;
+  margin: 0 auto;
+  border-radius: 10px;
 }
 
 .p-datatable {
-    box-shadow: 0 0 3px #00000033;
-    overflow: hidden;
-    border-radius: inherit;
+  box-shadow: 0 0 3px #00000033;
+  overflow: hidden;
+  border-radius: inherit;
 }
 
 .p-datatable-header {
-    background-color: var(--blue-600);
-    color: #fff;
+  background-color: var(--blue-600);
+  color: #fff;
 }
 
 table button .p-button-icon {
-    color: var(--blue-600)
+  color: var(--blue-600);
 }
 </style>
 <style scoped>
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .flex {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
 @media (width <=768px) {
-    .header {
-        flex-direction: column;
-        gap: 10px;
-    }
+  .header {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 </style>

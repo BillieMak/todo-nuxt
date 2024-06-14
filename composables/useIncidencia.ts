@@ -1,3 +1,5 @@
+import { AxiosError } from "axios";
+import type { Attendance } from "~/interfaces/attendance";
 import { useAttendanceStore } from "~/store/atttendanceStore";
 interface SeverityMap {
   [key: number]: string;
@@ -31,6 +33,20 @@ export const useIncidencia = () => {
   const { $apiBase } = useNuxtApp();
 
   const eventSource = ref<EventSource>();
+
+  const cancelAttendance = async (id: number) : Promise<boolean> => {
+    try {
+      
+      const {data} =  await attendanceApi.patch<Attendance>(`${$apiBase}/att/${id}?status=3`);
+      attendanceStore.addAttendance(data);
+      return true;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw new Error("Error al Canelar la Incidencia");
+        }
+      return false;
+    }
+  };
 
   const fillStore = async () => {
     //TODO: hacer una peticion para traer for fechas
@@ -83,5 +99,6 @@ export const useIncidencia = () => {
     attendances,
     getSeverity,
     getStateName,
+    cancelAttendance,
   };
 };
