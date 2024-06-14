@@ -6,25 +6,13 @@
       filterDisplay="row"
       :rows="10"
       paginator
-      :globalFilterFields="[
-        'person',
-        'area',
-        'created_by',
-        'created_at',
-      ]"
+      stripedRows
+      :globalFilterFields="['person', 'area', 'created_by', 'created_at']"
     >
       <template #header>
         <div class="header">
           <span class="text-xl text-900 font-bold text-white">Incidencias</span>
           <div class="flex">
-            <Calendar
-              v-model="filters['created_at'].value"
-              showIcon
-              :showOnFocus="false"
-              placeholder="Buscar por Fecha"
-              date-format="dd/mm/yy"
-              inputId="buttondisplay"
-            />
             <IconField iconPosition="left">
               <InputIcon>
                 <i class="pi pi-search" />
@@ -47,8 +35,8 @@
       </template>
       <template #empty> No Attendances found. </template>
       <template #loading> Loading Attendances data. Please wait. </template>
-      <Column field="person" header="Usuario">
-        <!-- <template #filter="{ filterModel, filterCallback }">
+      <Column field="person" header="Usuario" class="w-18rem" >
+        <template #filter="{ filterModel, filterCallback }">
           <InputText
             v-model="filterModel.value"
             type="text"
@@ -56,17 +44,27 @@
             class="p-column-filter"
             placeholder="Buscar Solicitante"
           />
-        </template> -->
+        </template>
       </Column>
-      <Column field="created_at" header="Fecha" :body="formatDate">
+      <Column field="created_at" header="Fecha" :body="formatDate" class=" max-w-16rem" :showFilterMenu="false">
         <template #body="{ data }">
           {{ formatDate(data.created_at) }}
         </template>
+        <template #filter>
+            <Calendar
+              v-model="filters['created_at'].value"
+              showIcon
+              :showOnFocus="false"
+              placeholder="Buscar por Fecha"
+              date-format="dd/mm/yy"
+              inputId="buttondisplay"
+            />
+        </template>
       </Column>
-      <Column field="created_by" header="Registrado"></Column>
+      <Column sortable field="created_by" header="Registrado"></Column>
       <Column field="problem" header="Problema"></Column>
       <Column field="area" header="Area"></Column>
-      <Column sortable field="state" header="Status">
+      <Column sortable :showFilterMenu="false" field="state" header="Status">
         <template #body="{ data }">
           <Tag
             :value="getStateName(data.state)"
@@ -78,11 +76,17 @@
             v-model="filterModel.value"
             @change="filterCallback()"
             :options="[0, 1, 2, 3]"
-            placeholder="Select One"
+            placeholder="Select a State"
             class="p-column-filter"
-            style="min-width: 12rem"
+            style="max-width: 12rem"
             :showClear="true"
           >
+            <template #value="{ value, placeholder }">
+              <Tag
+                :value="getStateName(value) || placeholder"
+                :severity="getSeverity(value)"
+              />
+            </template>
             <template #option="slotProps">
               <Tag
                 :value="getStateName(slotProps.option)"
@@ -105,7 +109,7 @@
             <div>
               <Button
                 icon="pi pi-pencil"
-                @click="toggle($event, data.id)"
+                @click="toggle($event, data)"
                 text
                 rounded
                 aria-label="Show"
@@ -151,13 +155,10 @@
 import { FilterMatchMode } from "primevue/api";
 import { useModalDataStore } from "~/store/modalDataStore";
 import { useToast } from "primevue/usetoast";
+import type { Attendance } from "~/interfaces/attendance";
 
-const {
-  getSeverity,
-  getStateName,
-  attendances,
-  cancelAttendance,
-} = useIncidencia();
+const { getSeverity, getStateName, attendances, cancelAttendance, finishAttendance } =
+  useIncidencia();
 
 const toast = useToast();
 
@@ -167,7 +168,7 @@ const { isLogged } = useAuth();
 
 const filters: any = ref({});
 
-const attendanceId = ref();
+const attendance = ref<Attendance>();
 
 const isVisible = ref(false);
 
@@ -181,7 +182,7 @@ const items = ref([
         icon: "pi pi-times",
         command: async () => {
           // alert(attendanceId.value)
-          const ok = await cancelAttendance(attendanceId.value);
+          const ok = await cancelAttendance(attendance.value!.id);
           if (ok) {
             toast.add({
               severity: "success",
@@ -204,8 +205,8 @@ const items = ref([
       {
         label: "Complete",
         icon: "pi pi-check",
-        command: () => {
-          alert("Complete");
+        command: async() => {
+          const ok = await finishAttendance(attendance.value!.id);
         },
       },
       {
@@ -259,8 +260,8 @@ const closeModal = (visible: boolean): void => {
   isVisible.value = visible;
 };
 
-const toggle = (event: Event, id: number) => {
-  attendanceId.value = id;
+const toggle = (event: Event, attendanceData: Attendance) => {
+  attendance.value = attendanceData;
   menu.value.toggle(event);
 };
 </script>

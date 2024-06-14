@@ -19,7 +19,7 @@ const severity: SeverityMap = {
 const stateName: StateNameMap = {
   0: "Pendiente",
   1: "En proceso",
-  2: "Cerrado",
+  2: "Finalizado",
   3: "Cancelado",
 };
 
@@ -43,6 +43,20 @@ export const useIncidencia = () => {
     } catch (error) {
       if (error instanceof AxiosError) {
         throw new Error("Error al Canelar la Incidencia");
+        }
+      return false;
+    }
+  };
+
+  const finishAttendance = async (id: number) : Promise<boolean> => {
+    try {
+      
+      const {data} =  await attendanceApi.patch<Attendance>(`${$apiBase}/att/${id}?status=2`);
+      attendanceStore.addAttendance(data);
+      return true;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        throw new Error("Error al Completar la Incidencia");
         }
       return false;
     }
@@ -100,6 +114,7 @@ export const useIncidencia = () => {
     getSeverity,
     getStateName,
     cancelAttendance,
+    finishAttendance,
 
     severity,
     stateName,
