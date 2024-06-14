@@ -45,14 +45,19 @@
                 </template>
             </Column>
         </DataTable>
+    <div
+        class="absolute flex flex-column py-4 gap-4 shadow-4 border-1 
+        border-white w-4rem h-auto bg-blue-600 border-round-xl top-50 right-0">
+        <Button :style="{':disabled': {
+            'cursor': 'not-allowed'
+        }}" v-tooltip.left="'Clear filters'" severity="secondary" 
+        :disabled="checkFields"
+        raised rounded icon="pi pi-trash" @click="clearCalendar" />
+        <Button  severity="secondary" raised rounded icon="pi pi-home" />
+        <Button  severity="secondary" raised rounded icon="pi pi-home" />
+    </div>
     </div>
 
-    <div
-        class="absolute flex flex-column py-4 gap-4 shadow-4 border-1 border-white w-5rem h-28rem bg-blue-600 border-round-xl top-0 right-0">
-        <Button v-tooltip.left="'Clear filters'" severity="secondary" raised rounded icon="pi pi-trash" @click="clearCalendar" />
-        <Button severity="secondary" raised rounded icon="pi pi-home" />
-        <Button severity="secondary" raised rounded icon="pi pi-home" />
-    </div>
 
     <LazyModalForm :isVisible="isVisible" @closeModal="closeModal" />
     <ModalData />
@@ -119,6 +124,10 @@ const clearCalendar = () => {
     filters.value['global'].value = null;
 
 }
+
+const checkFields = computed(() => {
+    return !(filters.value['created_at'].value || filters.value['global'].value)
+})
 
 const formatDate = computed(() => {
     return (date: string) => {

@@ -1,5 +1,5 @@
 <template>
-    <div class="relative">
+    <div>
         <h1>Incidencias Oti</h1>
         <TableData />
     </div>
