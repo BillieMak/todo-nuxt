@@ -30,6 +30,10 @@
             <span>{{ getSelected.area }}</span>
         </div>
         <div class="flex flex-column">
+            <h3 class="w-full  ">Persona Asignada</h3>
+            <span>{{ getSelected.assigned_person || 'Sin Asignar' }}</span>
+        </div>
+        <div class="flex flex-column">
             <h3 class="w-full ">Descripcion</h3>
             <span :class="{
                 'font-italic': !getSelected.description
@@ -57,7 +61,6 @@
                 </template>
 
             </FileUpload>
-            <!-- <Button raised v-if="getSelected.file" icon="pi pi-download" iconPos="right" label="Descargar Ficha" /> -->
         </div>
         <template #footer>
             <Button @click="closeModal" raised>Cerrar</Button>
@@ -84,7 +87,7 @@ const supabase = useSupabaseClient()
 const url_file = ref("")
 const codigo_file = ref("")
 
-const formatDate = (date: string): string => {
+const formatDate = (date: Date): string => {
     return new Date(date).toLocaleString('es-ES')
 }
 
