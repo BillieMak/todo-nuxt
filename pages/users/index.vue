@@ -66,9 +66,11 @@ definePageMeta({
 
 import { FilterMatchMode } from 'primevue/api'
 
+const router= useRouter()
+
+const { isLogged } = useAuth()
+
 const titlePanel = ref('Usuario - Agregar')
-
-
 const filters: any = ref({})
 
 
@@ -126,6 +128,14 @@ const onRowClick = ({ data }: { data: any }) => {
     titlePanel.value = 'Usuario - Editando'
     modalFields.value = data
 }
+
+
+watchEffect(() => {
+    if(!isLogged.value){
+        router.replace('/')
+    }
+})
+
 
 </script>
 <style scoped>

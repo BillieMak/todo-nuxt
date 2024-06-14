@@ -43,7 +43,10 @@ definePageMeta({
 
 const { documents, fillDocuments } = useDocuments()
 
-// const { $apiBase } = useNuxtApp();
+const router= useRouter()
+
+const { isLogged } = useAuth()
+
 
 onMounted(() => {
     fillDocuments()
@@ -62,6 +65,12 @@ const formatDate = computed(() => {
 //     window.location.href = `${$apiBase}/document/download/${codigo}`
 // }
 
+
+watchEffect(() => {
+    if(!isLogged.value){
+        router.replace('/')
+    }
+})
 </script>
 
 <style scoped>

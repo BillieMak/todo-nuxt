@@ -42,6 +42,10 @@ definePageMeta({
     name: 'areas'
 })
 
+const router= useRouter()
+
+const { isLogged } = useAuth()
+
 const { areas, getAreas } = useAreas()
 
 const titlePanel = ref()
@@ -55,6 +59,11 @@ const onRowClick = ({ data }: { data: any }) => {
     form.value = data
 }
 
+watchEffect(() => {
+    if(!isLogged.value){
+        router.replace('/')
+    }
+})
 
 </script>
 <style scoped>
