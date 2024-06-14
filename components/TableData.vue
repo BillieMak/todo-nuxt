@@ -3,13 +3,12 @@
     <DataTable
       :value="attendances"
       v-model:filters="filters"
-      filterDisplay="menu"
+      filterDisplay="row"
       :rows="10"
       paginator
       :globalFilterFields="[
         'person',
         'area',
-        'state',
         'created_by',
         'created_at',
       ]"
@@ -46,7 +45,19 @@
           </div>
         </div>
       </template>
-      <Column field="person" header="Usuario"></Column>
+      <template #empty> No Attendances found. </template>
+      <template #loading> Loading Attendances data. Please wait. </template>
+      <Column field="person" header="Usuario">
+        <!-- <template #filter="{ filterModel, filterCallback }">
+          <InputText
+            v-model="filterModel.value"
+            type="text"
+            @input="filterCallback()"
+            class="p-column-filter"
+            placeholder="Buscar Solicitante"
+          />
+        </template> -->
+      </Column>
       <Column field="created_at" header="Fecha" :body="formatDate">
         <template #body="{ data }">
           {{ formatDate(data.created_at) }}
@@ -61,6 +72,24 @@
             :value="getStateName(data.state)"
             :severity="getSeverity(data.state)"
           />
+        </template>
+        <template #filter="{ filterModel, filterCallback }">
+          <Dropdown
+            v-model="filterModel.value"
+            @change="filterCallback()"
+            :options="[0, 1, 2, 3]"
+            placeholder="Select One"
+            class="p-column-filter"
+            style="min-width: 12rem"
+            :showClear="true"
+          >
+            <template #option="slotProps">
+              <Tag
+                :value="getStateName(slotProps.option)"
+                :severity="getSeverity(slotProps.option)"
+              />
+            </template>
+          </Dropdown>
         </template>
       </Column>
       <Column header="Actions">
@@ -123,8 +152,12 @@ import { FilterMatchMode } from "primevue/api";
 import { useModalDataStore } from "~/store/modalDataStore";
 import { useToast } from "primevue/usetoast";
 
-const { getSeverity, getStateName, attendances, cancelAttendance } =
-  useIncidencia();
+const {
+  getSeverity,
+  getStateName,
+  attendances,
+  cancelAttendance,
+} = useIncidencia();
 
 const toast = useToast();
 
@@ -190,6 +223,8 @@ const initFilters = (): void => {
   filters.value = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     created_at: { value: null, matchMode: FilterMatchMode.DATE_IS },
+    state: { value: null, matchMode: FilterMatchMode.EQUALS },
+    person: { value: null, matchMode: FilterMatchMode.CONTAINS },
   };
 };
 
@@ -233,7 +268,7 @@ const toggle = (event: Event, id: number) => {
 .card {
   /* outline: 2px solid red; */
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-  width: 80vw;
+  width: 90vw;
   margin: 0 auto;
   border-radius: 10px;
 }

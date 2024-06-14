@@ -100,5 +100,8 @@ export const useIncidencia = () => {
     getSeverity,
     getStateName,
     cancelAttendance,
+
+    severity,
+    stateName,
   };
 };
