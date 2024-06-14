@@ -14,6 +14,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
     });
 
     //sacar de la ruta
-    return navigateTo("/attendance");
+    return navigateTo(from.path);
   }
 });
