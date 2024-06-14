@@ -52,7 +52,7 @@
             'cursor': 'not-allowed'
         }}" v-tooltip.left="'Clear filters'" severity="secondary" 
         :disabled="checkFields"
-        raised rounded icon="pi pi-trash" @click="clearCalendar" />
+        raised rounded icon="pi pi-filter-slash" @click="clearCalendar" />
         <Button  severity="secondary" raised rounded icon="pi pi-home" />
         <Button  severity="secondary" raised rounded icon="pi pi-home" />
     </div>
