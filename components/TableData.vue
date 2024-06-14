@@ -55,7 +55,7 @@
       <Column field="created_by" header="Registrado"></Column>
       <Column field="problem" header="Problema"></Column>
       <Column field="area" header="Area"></Column>
-      <Column field="state" header="Status">
+      <Column sortable field="state" header="Status">
         <template #body="{ data }">
           <Tag
             :value="getStateName(data.state)"
